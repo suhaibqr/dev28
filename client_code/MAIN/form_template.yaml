@@ -1,0 +1,8 @@
+components_by_slot:
+  content:
+  - layout_properties: {}
+    name: Contnet_panel_1
+    properties: {}
+    type: ColumnPanel
+is_package: true
+layout: {type: 'form:dep_lin1x4oec0ytd:Layouts.NavigationRailLayout'}
