@@ -23,7 +23,8 @@ class INVENTORY(INVENTORYTemplate):
       alert("Not Authenticated")
       return
     data = fetch_inventory_from_bunker("/pmp/resources")
-    self.inventory_table = DictFilter(data,[""])
+    self.inventory_table = DictFilter(data,["opdevice_groupDisplayName"])
+    
     
       
       
