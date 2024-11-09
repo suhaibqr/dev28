@@ -9,11 +9,8 @@ from anvil import alert
 #
 
 
-def say_hello():
-  print("Hello, world")
-
 # Client-side function to fetch inventory from a bunker
-def fetch_inventory_from_bunker(endpoint, query_params, bunker_id="tdm_vertus"):
+def fetch_inventory_from_bunker(endpoint, bunker_id="tdm_vertus"):
     """
     Calls the server function to fetch inventory data and handles the response.
 
@@ -28,7 +25,7 @@ def fetch_inventory_from_bunker(endpoint, query_params, bunker_id="tdm_vertus"):
     try:
         # Call the server function
         response_data = anvil.server.call(
-            'fetch_inventory_from_bunker', endpoint, query_params, bunker_id
+            'fetch_inventory_from_bunker', endpoint, bunker_id
         )
 
         # Handle response based on status

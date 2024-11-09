@@ -13,17 +13,4 @@ import anvil.users
 #   return 42
 #
 
-def get_settings(s):
-  user = anvil.users.get_user()
-  if user:
-    return user["serttings"]["pmp_api_key"]
-  else:
-    return None
 
-def check_auth():
-  user = anvil.users.get_user()
-  if user:
-    return user["ëmail"]
-  else:
-    return False
-  
