@@ -1,7 +1,7 @@
 from ._anvil_designer import INVENTORYTemplate
 from anvil import *
 import anvil.server
-import .
+from ...inventory_fn import fetch_inventory_from_bunker
 
 class INVENTORY(INVENTORYTemplate):
   def __init__(self, **properties):
@@ -16,5 +16,5 @@ class INVENTORY(INVENTORYTemplate):
     pmp_api_key = anvil.server.call("get_settings", "pmp_api_key")
     if not pmp_api_key:
       alert("missing or incorrect settings, make sure you have saved your PMP key or report the issue")
-    data = anvil.server.call("")      
+    data = fetch_inventory_from_bunker     
     
