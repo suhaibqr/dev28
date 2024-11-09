@@ -1,4 +1,9 @@
+import anvil.tables as tables
+import anvil.tables.query as q
+from anvil.tables import app_tables
+import anvil.users
 import anvil.server
+from anvil import alert
 # This is a module.
 # You can define variables and functions here, and use them from any form. For example, in a top-level form:
 #
@@ -10,6 +15,7 @@ import re
 
 class DictFilter:
     def __init__(self, data, keys):
+        data = transform_to_dict(data)
         self.original_list = data
         self.filtered_list = data[:]
         self.keys = keys
@@ -96,3 +102,27 @@ class DictFilter:
     
         # Ensure that only items matching all words remain
         return filtered_data
+
+
+def transform_to_dict(data_structure):
+    """
+    Transforms a data structure with fields and data into a list of dictionaries.
+    
+    Parameters:
+        data_structure (dict): A dictionary containing 'fields' and 'data'.
+            - fields (list): A list of keys for the dictionary.
+            - data (list of lists): A list of lists representing the data.
+    
+    Returns:
+        list: A list of dictionaries where each dictionary maps the fields to the corresponding data values.
+    """
+    fields = data_structure.get('fields', [])
+    data = data_structure.get('data', [])
+    
+    if not fields or not isinstance(data, list):
+        raise ValueError("Invalid data structure. Ensure 'fields' is a list and 'data' is a list of lists.")
+    
+    # Generate list of dictionaries
+    dict_list = [dict(zip(fields, values)) for values in data]
+    
+    return dict_list

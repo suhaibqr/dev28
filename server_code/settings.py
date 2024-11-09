@@ -1,3 +1,6 @@
+import anvil.tables as tables
+import anvil.tables.query as q
+from anvil.tables import app_tables
 import anvil.server
 import anvil.users
 # This is a server module. It runs on the Anvil server,
@@ -20,6 +23,8 @@ def get_settings(s):
   else:
     return None
 
+
+@anvil.server.callable
 def check_auth():
   user = anvil.users.get_user()
   if user:

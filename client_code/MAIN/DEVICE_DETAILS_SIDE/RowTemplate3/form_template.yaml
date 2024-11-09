@@ -10,5 +10,11 @@ components:
   name: button_1
   properties: {text: Copy Password}
   type: form:dep_lin1x4oec0ytd:_Components.Button
+- data_bindings: []
+  event_bindings: {click: description_btn_click}
+  layout_properties: {column: WNAHVF}
+  name: description_btn
+  properties: {enabled: true, text: Description}
+  type: form:dep_lin1x4oec0ytd:_Components.Button
 container: {type: DataRowPanel}
 is_package: true

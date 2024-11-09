@@ -1,12 +1,13 @@
 components_by_slot:
   content:
   - layout_properties: {}
-    name: main_content_panel
+    name: main_col_panel
     properties: {}
     type: ColumnPanel
   navigation:
-  - layout_properties: {}
-    name: navigation_link_1
+  - event_bindings: {click: inventory_nav_btn_click}
+    layout_properties: {}
+    name: inventory_nav_btn
     properties: {}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
   sidesheet:

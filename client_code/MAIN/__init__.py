@@ -1,8 +1,14 @@
 from ._anvil_designer import MAINTemplate
 from anvil import *
+import anvil.tables as tables
+import anvil.tables.query as q
+from anvil.tables import app_tables
+import anvil.users
 import anvil.server
 from .INVENTORY import INVENTORY
 from .DEVICE_DETAILS_SIDE import DEVICE_DETAILS_SIDE
+
+was_built = []
 
 class MAIN(MAINTemplate):
   def __init__(self, **properties):
@@ -24,4 +30,16 @@ class MAIN(MAINTemplate):
     self.inventory_form = INVENTORY()
     self.device_details_form = DEVICE_DETAILS_SIDE()
     pass
-    
+
+  def inventory_nav_btn_click(self, **event_args):
+    if "inventory_form" not in was_built:
+      self.inventory_form.build_form()
+      was_built.append("inventory_form")
+      self.main_col_panel.clear()
+      self.main_col_panel.add_component(self.inventory_form)
+    self.inventory_form.remove_from_parent()
+    self.main_col_panel.add_component(self.inventory_form)
+    """This method is called when the component is clicked"""
+    pass
+
+
