@@ -1,5 +1,6 @@
 from ._anvil_designer import WELCOMETemplate
 from anvil import *
+import anvil.server
 
 
 class WELCOME(WELCOMETemplate):

@@ -1,0 +1,11 @@
+components:
+- components:
+  - name: repeating_panel_1
+    properties: {item_template: MAIN.INVENTORY.inventoryrowtemplate}
+    type: RepeatingPanel
+  layout_properties: {grid_position: 'OPDPTX,IBPLIU'}
+  name: data_grid_1
+  properties: {}
+  type: DataGrid
+container: {type: ColumnPanel}
+is_package: true
