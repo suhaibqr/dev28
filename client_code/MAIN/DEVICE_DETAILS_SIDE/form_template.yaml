@@ -70,11 +70,13 @@ components:
     name: checkport_btn
     properties: {align: center, text: Check Port}
     type: form:dep_lin1x4oec0ytd:_Components.Button
-  - layout_properties: {grid_position: 'IZXLNC,PAEUJC'}
+  - event_bindings: {click: ping_btn_click}
+    layout_properties: {grid_position: 'IZXLNC,PAEUJC'}
     name: ping_btn
     properties: {align: center, text: PING}
     type: form:dep_lin1x4oec0ytd:_Components.Button
-  - layout_properties: {grid_position: 'CMLKVD,UKFQVW IZXLNC,QEMKAC'}
+  - event_bindings: {click: ssh_btn_click}
+    layout_properties: {grid_position: 'CMLKVD,UKFQVW IZXLNC,QEMKAC'}
     name: ssh_btn
     properties: {align: center, text: SSH}
     type: form:dep_lin1x4oec0ytd:_Components.Button

@@ -10,6 +10,7 @@ from ...globals import get_side_panel_data
 from ...inventory_fn import fetch_passwords
 from anvil.js.window import navigator
 from ...bunkers import get_bunkers_list
+from ...data_validation import is_valid_tcp_port
 
 class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
   def __init__(self, **properties):
@@ -71,10 +72,29 @@ class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
 
   def checkport_btn_click(self, **event_args):
     """This method is called when the component is clicked."""
-    if not all([self.address_text_box.text, self.port_text_box.text]):
+    if not all([self.address_text_box.text, is_valid_tcp_port(self.port_text_box.text)]):
       Notification("Make Sure Address, Port, and Bunker are selected").show()
-    anvil.server.call()
+    try:
+      r = anvil.server.call("check_port", self.address_text_box.text, self.port_text_box.text)
+      alert(r)
+    except Exception as e:
+      alert(f"Ping Faild: {e}")
+
+  def ping_btn_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    if not all([self.address_text_box.text]):
+      Notification("Make Sure Address field has a valid address")
+    try:
+      r = anvil.server.call("ping_host", self.address_text_box.text, self.port_text_box.text)
+      alert(r)
+    except Exception as e:
+      alert(f"Ping failed: {e}")
+
+  def ssh_btn_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    get_jwt_token()
     pass
+   
 
 def process_data(data):
     # Step 1: Extract "RESOURCE_ID" and "ACCOUNT ID"
