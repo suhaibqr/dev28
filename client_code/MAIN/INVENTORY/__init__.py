@@ -29,7 +29,7 @@ class INVENTORY(INVENTORYTemplate):
     data = fetch_inventory_from_bunker("tdm_vertus")
     self.inventory_table = DictFilter(data,["opdevice_groupDisplayName"])
     # alert(self.inventory_table.filtered_list, large=True)
-    self.grid_items = self.inventory_table.filtered_list
+    self.inventory_rep.items = self.inventory_table.filtered_list
     
   def build_form(self):
     self.get_inventory()

@@ -1,7 +1,6 @@
 components:
 - components:
-  - data_bindings:
-    - {code: self.grid_items, property: items, writeback: false}
+  - data_bindings: []
     name: inventory_rep
     properties: {item_template: MAIN.INVENTORY.RowTemplate1}
     type: RepeatingPanel
@@ -10,8 +9,8 @@ components:
   properties:
     columns:
     - {data_key: RESOURCE_NAME, id: WZXVVE, title: Device Name}
-    - {data_key: column_2, id: ROXJCM, title: Address}
-    - {data_key: column_3, id: XTHXUN, title: Customer}
+    - {data_key: address, id: ROXJCM, title: Address}
+    - {data_key: groupDisplayName, id: XTHXUN, title: Customer}
   type: DataGrid
 container: {type: ColumnPanel}
 is_package: true
