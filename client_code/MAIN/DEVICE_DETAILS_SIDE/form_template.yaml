@@ -1,0 +1,78 @@
+components:
+- layout_properties: {grid_position: 'QKMOYO,CAYKTU'}
+  name: device_details_text
+  properties: {}
+  type: form:dep_lin1x4oec0ytd:_Components.Text
+- event_bindings: {click: get_pmp_details_btn_click}
+  layout_properties: {grid_position: 'JRRPGS,LOPVED'}
+  name: get_pmp_details_btn
+  properties: {align: center, text: Get PMP Accounts}
+  type: form:dep_lin1x4oec0ytd:_Components.Button
+- components:
+  - name: device_details_rep
+    properties: {item_template: MAIN.DEVICE_DETAILS_SIDE.RowTemplate3}
+    type: RepeatingPanel
+  layout_properties: {grid_position: 'NCGIGH,LEFQYP'}
+  name: device_details_datagrid
+  properties:
+    columns:
+    - {data_key: column_1, id: TWXUGK, title: Account Name}
+    - {data_key: column_2, id: WPMRDF, title: Password}
+    - {data_key: column_3, id: WNAHVF, title: Description}
+  type: DataGrid
+- components:
+  - layout_properties: {grid_position: 'JMEXND,BQPFKJ'}
+    name: pmp_description
+    properties: {}
+    type: RichText
+  - layout_properties: {grid_position: 'CMLKVD,UKFQVW IITWFO,LTWYOH'}
+    name: text_1
+    properties: {text: Address}
+    type: form:dep_lin1x4oec0ytd:_Components.Text
+  - layout_properties: {grid_position: 'CMLKVD,UKFQVW IITWFO,DRHLAU'}
+    name: address_text_box
+    properties: {label: '', placeholder: Address}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+  - layout_properties: {grid_position: 'CMLKVD,UKFQVW OGBTHT,QSFFHY'}
+    name: text_2
+    properties: {text: Username}
+    type: form:dep_lin1x4oec0ytd:_Components.Text
+  - layout_properties: {grid_position: 'CMLKVD,UKFQVW OGBTHT,HCGJFF'}
+    name: username_text_box
+    properties: {label: '', placeholder: Username}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+  - layout_properties: {grid_position: 'CMLKVD,UKFQVW RXQYIB,VPDQDL'}
+    name: text_3
+    properties: {text: Password}
+    type: form:dep_lin1x4oec0ytd:_Components.Text
+  - data_bindings: []
+    layout_properties: {grid_position: 'CMLKVD,UKFQVW RXQYIB,LNYQFQ'}
+    name: password_text_box
+    properties: {hide_text: true, label: '', placeholder: Password}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+  - layout_properties: {grid_position: 'CMLKVD,UKFQVW DCGMBP,NSDAAR'}
+    name: text_4
+    properties: {text: Port}
+    type: form:dep_lin1x4oec0ytd:_Components.Text
+  - layout_properties: {grid_position: 'CMLKVD,UKFQVW DCGMBP,ZFIPVO'}
+    name: port_text_box
+    properties: {label: '', placeholder: Port, text: '22'}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+  - layout_properties: {grid_position: 'CMLKVD,UKFQVW IZXLNC,PPXQDK'}
+    name: checkport_btn
+    properties: {text: Check Port}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
+  - layout_properties: {grid_position: 'CMLKVD,UKFQVW IZXLNC,PAEUJC'}
+    name: ping_btn
+    properties: {}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
+  - layout_properties: {grid_position: 'CMLKVD,UKFQVW IZXLNC,TCHBBP'}
+    name: SSH
+    properties: {}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
+  layout_properties: {grid_position: 'ZWTBYH,VGBKYO'}
+  name: device_detail_connection
+  properties: {}
+  type: ColumnPanel
+container: {type: ColumnPanel}
+is_package: true

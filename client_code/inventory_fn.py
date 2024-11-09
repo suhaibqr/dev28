@@ -50,7 +50,44 @@ def fetch_inventory_from_bunker(endpoint, bunker_id="tdm_vertus"):
     return None  # Return None in case of an error
 
 
+def fetch_password_from_bunker(endpoint, bunker_id="tdm_vertus"):
+    """
+    Calls the server function to fetch inventory data and handles the response.
 
+    Args:
+        endpoint (str): The API endpoint to call.
+        query_params (dict): Query parameters for the API request.
+        bunker_id (str): The bunker ID (default: 'tdm_vertus').
+
+    Returns:
+        Any: The response data if the call is successful. None if there's an error.
+    """
+    try:
+        # Call the server function
+        response_data = anvil.server.call(
+            'fetch_inventory_from_bunker', endpoint, bunker_id
+        )
+
+        # Handle response based on status
+        if response_data.get('status') == 'success':
+            transform_to_dict = response_data.get('result')
+            return  transform_to_dict
+        else:
+            error_message = response_data.get('result', 'Unknown error occurred.')
+            alert(f"API Call Failed:\n\n{error_message}")
+            print(f"API Call Failed: {error_message}")  # Log error for debugging
+            return None  # Explicitly return None for clarity
+
+    except anvil.server.AppError as app_error:
+        # Handle specific app-level exceptions
+        alert(f"Server Error: {app_error}")
+        print(f"Server Error: {app_error}")
+    except Exception as e:
+        # Handle unexpected exceptions
+        alert(f"Unexpected Error: {str(e)}")
+        print(f"Unexpected Error: {str(e)}")
+
+    return None  # Return None in case of an error
 
 def transform_to_dict(data_structure):
     """

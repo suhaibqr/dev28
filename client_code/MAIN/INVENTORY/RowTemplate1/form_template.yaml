@@ -1,3 +1,10 @@
-components: []
+components:
+- data_bindings:
+  - {code: 'self.item["RESOURCE_NAME"]', property: text, writeback: false}
+  event_bindings: {click: device_link_click}
+  layout_properties: {column: WZXVVE}
+  name: device_link
+  properties: {text: ''}
+  type: form:dep_lin1x4oec0ytd:_Components.Link
 container: {type: DataRowPanel}
 is_package: true

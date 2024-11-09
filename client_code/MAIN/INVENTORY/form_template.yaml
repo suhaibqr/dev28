@@ -1,6 +1,6 @@
 components:
 - components:
-  - name: repeating_panel_1
+  - name: inventory_rep
     properties: {item_template: MAIN.INVENTORY.RowTemplate1}
     type: RepeatingPanel
   layout_properties: {grid_position: 'XEOJTO,BCFDWE'}
@@ -10,7 +10,6 @@ components:
     - {data_key: RESOURCE_NAME, id: WZXVVE, title: Device Name}
     - {data_key: column_2, id: ROXJCM, title: Address}
     - {data_key: column_3, id: XTHXUN, title: Customer}
-    - {data_key: column_4, id: EWQYEX, title: Column 4}
   type: DataGrid
 container: {type: ColumnPanel}
 is_package: true
