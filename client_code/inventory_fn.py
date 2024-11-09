@@ -14,7 +14,7 @@ from anvil import alert
 
 
 # Client-side function to fetch inventory from a bunker
-def fetch_inventory_from_bunker(bunker_id="tdm_vertus"):
+def fetch_inventory_from_bunker(bunker_id="TDM Vertus"):
     """
     Calls the server function to fetch inventory data and handles the response.
 
@@ -91,10 +91,11 @@ def fetch_passwords(resource_accounts):
         
         if response['status'] == 'success':
             print("Passwords fetched successfully!")
-            print(response['result'])
+            return response['result']
         else:
             print("Failed to fetch passwords.")
-            print(response['result'])
+            anvil.alert("Failed to fetch passwords.")
+
     
     except anvil.server.AnvilError as e:
         print(f"Anvil error: {str(e)}")

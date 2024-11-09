@@ -25,50 +25,58 @@ components:
     name: pmp_description
     properties: {}
     type: RichText
-  - layout_properties: {grid_position: 'CMLKVD,UKFQVW IITWFO,LTWYOH'}
+  - layout_properties: {grid_position: 'IITWFO,LTWYOH'}
     name: text_1
     properties: {text: Address}
     type: form:dep_lin1x4oec0ytd:_Components.Text
-  - layout_properties: {grid_position: 'CMLKVD,UKFQVW IITWFO,DRHLAU'}
+  - layout_properties: {grid_position: 'IITWFO,DRHLAU'}
     name: address_text_box
     properties: {label: '', placeholder: Address}
     type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-  - layout_properties: {grid_position: 'CMLKVD,UKFQVW OGBTHT,QSFFHY'}
+  - layout_properties: {grid_position: 'OGBTHT,QSFFHY'}
     name: text_2
     properties: {text: Username}
     type: form:dep_lin1x4oec0ytd:_Components.Text
-  - layout_properties: {grid_position: 'CMLKVD,UKFQVW OGBTHT,HCGJFF'}
+  - layout_properties: {grid_position: 'OGBTHT,HCGJFF'}
     name: username_text_box
     properties: {label: '', placeholder: Username}
     type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-  - layout_properties: {grid_position: 'CMLKVD,UKFQVW RXQYIB,VPDQDL'}
+  - layout_properties: {grid_position: 'RXQYIB,VPDQDL'}
     name: text_3
     properties: {text: Password}
     type: form:dep_lin1x4oec0ytd:_Components.Text
   - data_bindings: []
-    layout_properties: {grid_position: 'CMLKVD,UKFQVW RXQYIB,LNYQFQ'}
+    layout_properties: {grid_position: 'RXQYIB,LNYQFQ'}
     name: password_text_box
     properties: {hide_text: true, label: '', placeholder: Password}
     type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-  - layout_properties: {grid_position: 'CMLKVD,UKFQVW DCGMBP,NSDAAR'}
+  - layout_properties: {grid_position: 'DCGMBP,NSDAAR'}
     name: text_4
     properties: {text: Port}
     type: form:dep_lin1x4oec0ytd:_Components.Text
-  - layout_properties: {grid_position: 'CMLKVD,UKFQVW DCGMBP,ZFIPVO'}
+  - layout_properties: {grid_position: 'DCGMBP,ZFIPVO'}
     name: port_text_box
     properties: {label: '', placeholder: Port, text: '22'}
     type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-  - layout_properties: {grid_position: 'CMLKVD,UKFQVW IZXLNC,PPXQDK'}
+  - data_bindings:
+    - {code: self.bunkers_list, property: items, writeback: false}
+    event_bindings: {change: bunkers_dropdown_menu_change}
+    layout_properties: {grid_position: 'CCDRVM,HWEOKV'}
+    name: bunkers_dropdown_menu
+    properties: {align: center}
+    type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
+  - event_bindings: {click: checkport_btn_click}
+    layout_properties: {grid_position: 'IZXLNC,PPXQDK'}
     name: checkport_btn
-    properties: {text: Check Port}
+    properties: {align: center, text: Check Port}
     type: form:dep_lin1x4oec0ytd:_Components.Button
-  - layout_properties: {grid_position: 'CMLKVD,UKFQVW IZXLNC,PAEUJC'}
+  - layout_properties: {grid_position: 'IZXLNC,PAEUJC'}
     name: ping_btn
-    properties: {text: PING}
+    properties: {align: center, text: PING}
     type: form:dep_lin1x4oec0ytd:_Components.Button
-  - layout_properties: {grid_position: 'CMLKVD,UKFQVW IZXLNC,TCHBBP'}
-    name: SSH
-    properties: {bold: true}
+  - layout_properties: {grid_position: 'CMLKVD,UKFQVW IZXLNC,QEMKAC'}
+    name: ssh_btn
+    properties: {align: center, text: SSH}
     type: form:dep_lin1x4oec0ytd:_Components.Button
   layout_properties: {grid_position: 'ZWTBYH,VGBKYO'}
   name: device_detail_connection

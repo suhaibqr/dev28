@@ -3,6 +3,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 import anvil.server
+import base64
+
 # This is a module.
 # You can define variables and functions here, and use them from any form. For example, in a top-level form:
 #
@@ -33,3 +35,25 @@ def dict_to_paragraph(data, keys_to_include=None):
         f"{key}: {value}" for key, value in data.items()
         if key in keys_to_include and value
     )
+
+
+
+
+def decode_base64(encoded_str):
+    """
+    Decodes a Base64-encoded string and returns the original string.
+    
+    Parameters:
+        encoded_str (str): The Base64-encoded string.
+        
+    Returns:
+        str: The original decoded string.
+    """
+    try:
+        # Decode the Base64 string
+        decoded_bytes = base64.b64decode(encoded_str)
+        # Convert bytes to string
+        original_str = decoded_bytes.decode('utf-8')
+        return original_str
+    except Exception as e:
+        return f"Error decoding Base64 string: {e}"

@@ -69,15 +69,16 @@ class DictFilter:
     
         # Clean and split the search string into words
         words = [word.strip() for word in search_string.split() if word.strip()]
-    
+        print("words", words)
         # Perform case-insensitive search for all words
-        filtered_data = self.filtered_list[:]
-    
+        filtered_data = self.original_list[:]
+       
         for word in words:
             word_pattern = re.compile(re.escape(word), re.IGNORECASE)
-    
+            
             def matches_any_field(item, keys):
                 """Helper function to check if the word matches any key's value in the item."""
+              
                 for key in keys:
                     if key not in item or item[key] is None:
                         continue
@@ -94,35 +95,45 @@ class DictFilter:
                     elif isinstance(item[key], str):
                         # Check regular string fields
                         if word_pattern.search(item[key]):
+                            # print("found")
                             return True
                 return False
-    
+            
             # Filter items based on whether they match the current word
             filtered_data = [item for item in filtered_data if matches_any_field(item, search_keys)]
-    
+        # print(filtered_data)
         # Ensure that only items matching all words remain
-        return filtered_data
+        self.filtered_list = filtered_data
+        # return filtered_data
 
 
 def transform_to_dict(data_structure):
     """
-    Transforms a data structure with fields and data into a list of dictionaries.
-    
+    Transforms a data structure with 'fields' (mapping of keys to indices) and 'data' 
+    (list of lists) into a list of dictionaries.
+
     Parameters:
-        data_structure (dict): A dictionary containing 'fields' and 'data'.
-            - fields (list): A list of keys for the dictionary.
-            - data (list of lists): A list of lists representing the data.
-    
+        data_structure (dict): A dictionary containing:
+            - 'fields' (dict): A dictionary mapping keys to column indices.
+            - 'data' (list of lists): A list of lists representing the data.
+
     Returns:
         list: A list of dictionaries where each dictionary maps the fields to the corresponding data values.
     """
-    fields = data_structure.get('fields', [])
+    fields = data_structure.get('fields', {})
     data = data_structure.get('data', [])
     
     if not fields or not isinstance(data, list):
-        raise ValueError("Invalid data structure. Ensure 'fields' is a list and 'data' is a list of lists.")
+        raise ValueError("Invalid data structure. Ensure 'fields' is a dict and 'data' is a list of lists.")
+    
+    # Get the keys and their corresponding indices
+    keys = list(fields.keys())
+    indices = list(fields.values())
     
     # Generate list of dictionaries
-    dict_list = [dict(zip(fields, values)) for values in data]
+    dict_list = [
+        {key: row[index] for key, index in zip(keys, indices)}
+        for row in data
+    ]
     
     return dict_list

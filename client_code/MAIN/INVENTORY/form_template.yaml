@@ -1,5 +1,10 @@
 components:
 - components:
+  - event_bindings: {pressed_enter: search_engine_text_box_pressed_enter}
+    layout_properties: {}
+    name: search_engine_text_box
+    properties: {align: center, label: '', placeholder: Search Engine}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
   - data_bindings: []
     name: inventory_rep
     properties: {item_template: MAIN.INVENTORY.RowTemplate1}
@@ -10,7 +15,7 @@ components:
     columns:
     - {data_key: RESOURCE_NAME, id: WZXVVE, title: Device Name}
     - {data_key: address, id: ROXJCM, title: Address}
-    - {data_key: groupDisplayName, id: XTHXUN, title: Customer}
+    - {data_key: opdevice_groupDisplayName, id: XTHXUN, title: Customer}
   type: DataGrid
 container: {type: ColumnPanel}
 is_package: true

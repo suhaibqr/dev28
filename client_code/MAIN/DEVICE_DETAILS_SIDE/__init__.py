@@ -5,21 +5,27 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 import anvil.server
-from ...tools import dict_to_paragraph
+from ...tools import dict_to_paragraph, decode_base64
 from ...globals import get_side_panel_data
 from ...inventory_fn import fetch_passwords
+from anvil.js.window import navigator
+from ...bunkers import get_bunkers_list
 
 class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
-    
+    self.bunkers_list = ["No Bunkers Found"]
     self.init_components(**properties)
+    self.bunkers_list = list(get_bunkers_list().keys())
+    if self.bunkers_list:
+      self.bunkers_dropdown_menu.selected_value = "TDM Vertus"
+    
     
    
     # Any code you write here will run before the form opens.
 
 
-  def build_details_text(self,details):
+  def build_details_text(self,data):
     keys_to_include = [
             "RESOURCE_NAME", "RESOURCE_TYPE", "RESOURCE_DESCRIPTION", "DNS_NAME", 
             "DOMAIN_NAME", "RESOURCE_URL", "LOCATION", "opdevicedisplayName", 
@@ -27,8 +33,8 @@ class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
             "opdevice_category", "opdevice_groupDisplayName"
         ]
     
-    txt = dict_to_paragraph(get_side_panel_data(),keys_to_include=keys_to_include)
-    self.device_details_text.text(txt)
+    txt = dict_to_paragraph(data,keys_to_include=keys_to_include)
+    self.device_details_text.text = txt
 
   def get_pmp_details_btn_click(self, **event_args):
     """This method is called when the component is clicked."""
@@ -39,55 +45,69 @@ class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
 
 
   def reset_form(self):
-    self.device_details_rep = []
-    self.pmp_description.clear()
-    self.device_details_text.clear()
+    self.device_details_rep.items = []
+    self.pmp_description.content = ""
+    self.device_details_text.text = ""
     self.address_text_box.text = ""
     self.port_text_box.text = ""
     self.username_text_box.text = ""
     self.password_text_box.text = ""
     
-  def rebuild_form(self):
-    self.build_details_text()
-    self.data = get_side_panel_data()
+  def rebuild_form(self, data):
+    self.data = data
+    self.build_details_text(self.data)
+   
+  
+  def edit_boxes(self,row):
+    # print("DNA_NAME:", self.data["DNS_NAME"], "\n" ,"row:", row)
+    self.address_text_box.text = self.data["DNS_NAME"] or self.data["opdevice_ipaddress"] or self.data["RESOURCE_URL"]
+    self.port_text_box.text = 22
+    self.username_text_box.text = row["ACCOUNT_NAME"]
+    self.password_text_box.text = row["PASSWORD"]
 
+  def bunkers_dropdown_menu_change(self, **event_args):
+    """This method is called when an item is selected"""
+    pass
+
+  def checkport_btn_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    if not all([self.address_text_box.text, self.port_text_box.text]):
+      Notification("Make Sure Address, Port, and Bunker are selected").show()
+    anvil.server.call()
+    pass
 
 def process_data(data):
     # Step 1: Extract "RESOURCE_ID" and "ACCOUNT ID"
     extracted_data = []
-    for item in data:
-        resource_id = item.get("RESOURCE_ID", "")
-        accounts = item.get("ACCOUNT_LIST", [])
-        for account in accounts:
-            extracted_data.append({
-                "RESOURCE_ID": resource_id,
-                "ACCOUNT_ID": account.get("ACCOUNT ID", "")
-            })
+    print("data", data)
+    
+    
+    resource_id = data.get("RESOURCE_ID", "")
+    accounts = data.get("ACCOUNT_LIST", [])
+    for account in accounts:
+        extracted_data.append({
+            "RESOURCE_ID": resource_id,
+            "ACCOUNT_ID": account.get("ACCOUNT ID", "")
+        })
     
     # Step 2: Call the fetch_passwords function with the extracted data
     fetched_passwords = fetch_passwords(extracted_data)
 
     # Step 3: Generate the final list of dictionaries
     result = []
-    for item in data:
-        resource_id = item.get("RESOURCE_ID", "")
-        accounts = item.get("ACCOUNT_LIST", [])
-        for account in accounts:
-            account_id = account.get("ACCOUNT ID", "")
-            matching_password_entry = next(
-                (entry for entry in fetched_passwords 
-                 if entry["RESOURCE_ID"] == resource_id and entry["ACCOUNT_ID"] == account_id),
-                None
-            )
-            if matching_password_entry:
-                result.append({
-                    "ACCOUNT_NAME": account.get("ACCOUNT NAME", ""),
-                    "PASSWORD": matching_password_entry.get("PASSWORD", ""),
-                    "ACCOUNT_DESCRIPTION": account.get("ACCOUNT_DESCRIPTION", "")
-                })
-              
+    
+    for account in accounts:
+        account_id = account.get("ACCOUNT ID", "")
+        matching_password_entry = next(
+            (entry for entry in fetched_passwords 
+              if entry["RESOURCE_ID"] == resource_id and entry["ACCOUNT_ID"] == account_id),
+            None
+        )
+        if matching_password_entry:
+            result.append({
+                "ACCOUNT_NAME": account.get("ACCOUNT NAME", ""),
+                "PASSWORD": decode_base64(matching_password_entry.get("PASSWORD", "")),
+                "ACCOUNT_DESCRIPTION": account.get("ACCOUNT_DESCRIPTION", "")
+            })
     return result
 
-
-
-              # "ACCOUNT_DESCRIPTION": account.get("ACCOUNT_DESCRIPTION", "")
