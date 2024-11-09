@@ -39,34 +39,60 @@ class DictFilter:
         self.filtered_list = self.original_list[:]
         self.available_options = self._generate_available_options()
 
-    def search_by_string(self, search_string, search_keys):
+    def search_by_string(self, search_string, search_keys=None):
         """
         Filters the data based on a search string and a list of keys.
-        Only items matching all words in the search string across the specified keys are returned.
-
+        Searches inside the values of the keys for string matches, and for `ACCOUNT_LIST`,
+        also searches inside the dictionaries within the list for specified fields.
+    
         :param search_string: String containing words to search for, separated by spaces.
-        :param search_keys: List of keys to search in.
+        :param search_keys: List of keys to search in. If None, uses the fixed set of keys.
         :return: List of dictionaries matching all search criteria.
         """
+        # Fixed keys for this method
+        fixed_keys = [
+            "RESOURCE_NAME", "RESOURCE_TYPE", "RESOURCE_DESCRIPTION", "DNS_NAME", 
+            "DOMAIN_NAME", "RESOURCE_URL", "LOCATION", "opdevicedisplayName", 
+            "opdevice_ipaddress", "opdevice_vandorName", "opdevice_deviceName", 
+            "opdevice_category", "opdevice_groupDisplayName", "ACCOUNT_LIST"
+        ]
+        search_keys = search_keys or fixed_keys
+    
         if not isinstance(search_string, str):
             raise ValueError("Search string must be a string.")
-        if not isinstance(search_keys, list):
-            raise ValueError("Search keys must be a list.")
-
+    
         # Clean and split the search string into words
         words = [word.strip() for word in search_string.split() if word.strip()]
-
+    
         # Perform case-insensitive search for all words
         filtered_data = self.filtered_list[:]
+    
         for word in words:
             word_pattern = re.compile(re.escape(word), re.IGNORECASE)
-            filtered_data = [
-                item for item in filtered_data
-                if any(
-                    key in item and item[key] is not None and isinstance(item[key], str) and word_pattern.search(item[key])
-                    for key in search_keys
-                )
-            ]
-        
+    
+            def matches_any_field(item, keys):
+                """Helper function to check if the word matches any key's value in the item."""
+                for key in keys:
+                    if key not in item or item[key] is None:
+                        continue
+                    if key == "ACCOUNT_LIST" and isinstance(item[key], list):
+                        # Handle ACCOUNT_LIST specifically
+                        for account in item[key]:
+                            if not isinstance(account, dict):
+                                continue
+                            if any(
+                                word_pattern.search(str(account.get(field, "")))
+                                for field in ["ACCOUNT_DESCRIPTION", "ACCOUNT NAME"]
+                            ):
+                                return True
+                    elif isinstance(item[key], str):
+                        # Check regular string fields
+                        if word_pattern.search(item[key]):
+                            return True
+                return False
+    
+            # Filter items based on whether they match the current word
+            filtered_data = [item for item in filtered_data if matches_any_field(item, search_keys)]
+    
         # Ensure that only items matching all words remain
         return filtered_data
