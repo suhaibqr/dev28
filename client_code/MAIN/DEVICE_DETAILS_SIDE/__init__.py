@@ -11,15 +11,22 @@ from ...inventory_fn import fetch_passwords
 from anvil.js.window import navigator
 from ...bunkers import get_bunkers_list
 from ...data_validation import is_valid_tcp_port
+from anvil.js.window import open as open_tab
+from ...tools import encode_to_base64
+from ...automation import add_to_automation_devices_list, check_if_inside_automation_list,remove_from_automation_devices_list, get_automation_devices_list
 
 class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.bunkers_list = ["No Bunkers Found"]
     self.init_components(**properties)
-    self.bunkers_list = list(get_bunkers_list().keys())
-    if self.bunkers_list:
-      self.bunkers_dropdown_menu.selected_value = "TDM Vertus"
+    try:
+      self.bunkers_list = list(get_bunkers_list().keys())
+      self.refresh_data_bindings()
+      if self.bunkers_list:
+        self.bunkers_dropdown_menu.selected_value = "TDM Vertus"
+    except Exception as e:
+      pass
     
     
    
@@ -40,10 +47,10 @@ class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
   def get_pmp_details_btn_click(self, **event_args):
     """This method is called when the component is clicked."""
     d = process_data(self.data)
-    
     self.device_details_rep.items = d
 
-
+  
+    
 
   def reset_form(self):
     self.device_details_rep.items = []
@@ -53,6 +60,7 @@ class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
     self.port_text_box.text = ""
     self.username_text_box.text = ""
     self.password_text_box.text = ""
+    self.automation_toggle_btn.selected = False
     
   def rebuild_form(self, data):
     self.data = data
@@ -68,6 +76,7 @@ class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
 
   def bunkers_dropdown_menu_change(self, **event_args):
     """This method is called when an item is selected"""
+    print("selected bunker value", event_args["sender"].selected_value)
     pass
 
   def checkport_btn_click(self, **event_args):
@@ -76,7 +85,10 @@ class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
       Notification("Make Sure Address, Port, and Bunker are selected").show()
     try:
       r = anvil.server.call("check_port", self.address_text_box.text, self.port_text_box.text)
-      alert(r)
+      if r["status"] == "failed":
+        alert(f"Checking Port Failed:\n\n {r['result']}")
+      else:
+        alert(r["result"])
     except Exception as e:
       alert(f"Ping Faild: {e}")
 
@@ -86,14 +98,59 @@ class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
       Notification("Make Sure Address field has a valid address")
     try:
       r = anvil.server.call("ping_host", self.address_text_box.text, self.port_text_box.text)
-      alert(r)
+      if r["status"] == "failed":
+        alert(f"Pinging Failed:\n\n {r['result']}")
+      else:
+        alert(r["result"])
     except Exception as e:
       alert(f"Ping failed: {e}")
 
   def ssh_btn_click(self, **event_args):
     """This method is called when the component is clicked."""
-    get_jwt_token()
-    pass
+    try:
+      token = anvil.server.call("generate_jwt_token")
+    except Exception as e:
+      alert("Couldnt Get Token")
+    bunker = self.bunkers_dropdown_menu.selected_value
+    print("get_bunkers_list():", get_bunkers_list())
+    print("get(bunker)" , get_bunkers_list().get(bunker))
+    print("get_bunkers_list().get(bunker)[1]:", get_bunkers_list().get(bunker)[1])
+    bunker = get_bunkers_list().get(bunker)[1]
+    hostname = self.address_text_box.text
+    username = self.username_text_box.text
+    port = self.port_text_box.text
+    password = encode_to_base64(self.password_text_box.text)
+    if not all([hostname,username,password,port]):
+      alert("Make sure address, username, password and port are filled")
+    url = f"{bunker}?hostname={hostname}&username={username}&password={password}&port={port}&token={token}"
+    print("opening in a new tab", url)
+    open_tab(url, "_blank")
+
+
+
+  def automation_toggle_btn_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    hostname = self.address_text_box.text
+    username = self.username_text_box.text
+    port = self.port_text_box.text
+    password = encode_to_base64(self.password_text_box.text)
+    
+    d = {
+      "hostname": hostname,
+      "username": username,
+      "port": port,
+      "password": password,
+    }
+    if not event_args["sender"].selected:
+      print("it was seleceted before clicking, we will delete")
+      remove_from_automation_devices_list(d)
+      return
+    else:
+      if not check_if_inside_automation_list(d):
+        add_to_automation_devices_list(d)
+        event_args["sender"].selected = True
+    
+  
    
 
 def process_data(data):

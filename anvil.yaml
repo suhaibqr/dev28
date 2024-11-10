@@ -36,7 +36,10 @@ dependencies:
   version: {version_tag: v3.0.0}
 metadata: {title: Dev28}
 name: Dev28
-native_deps: null
+native_deps:
+  head_html: |
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.fancytree/2.27.0/skin-win8/ui.fancytree.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.fancytree/2.27.0/jquery.fancytree-all-deps.js"></script>
 package_name: Dev28
 runtime_options:
   client_version: '3'

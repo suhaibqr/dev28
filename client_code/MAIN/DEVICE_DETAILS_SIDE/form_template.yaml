@@ -76,10 +76,15 @@ components:
     properties: {align: center, text: PING}
     type: form:dep_lin1x4oec0ytd:_Components.Button
   - event_bindings: {click: ssh_btn_click}
-    layout_properties: {grid_position: 'CMLKVD,UKFQVW IZXLNC,QEMKAC'}
+    layout_properties: {grid_position: 'IZXLNC,QEMKAC'}
     name: ssh_btn
     properties: {align: center, text: SSH}
     type: form:dep_lin1x4oec0ytd:_Components.Button
+  - event_bindings: {click: automation_toggle_btn_click}
+    layout_properties: {grid_position: 'IZXLNC,TYSYEX'}
+    name: automation_toggle_btn
+    properties: {align: center, selected: false}
+    type: form:dep_lin1x4oec0ytd:_Components.ToggleIconButton
   layout_properties: {grid_position: 'ZWTBYH,VGBKYO'}
   name: device_detail_connection
   properties: {}

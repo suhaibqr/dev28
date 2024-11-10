@@ -57,3 +57,24 @@ def decode_base64(encoded_str):
         return original_str
     except Exception as e:
         return f"Error decoding Base64 string: {e}"
+
+def encode_to_base64(original_str):
+    """
+    Encodes a given string into Base64 format.
+    
+    Parameters:
+        original_str (str): The original string to be encoded.
+        
+    Returns:
+        str: The Base64-encoded string.
+    """
+    try:
+        # Convert string to bytes
+        original_bytes = original_str.encode('utf-8')
+        # Encode bytes to Base64
+        base64_bytes = base64.b64encode(original_bytes)
+        # Convert Base64 bytes to string
+        base64_str = base64_bytes.decode('utf-8')
+        return base64_str
+    except Exception as e:
+        return f"Error encoding to Base64: {e}"

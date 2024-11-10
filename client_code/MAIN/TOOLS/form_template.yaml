@@ -1,0 +1,56 @@
+components:
+- components:
+  - layout_properties: {col_xs: 0, row: AROTIM, width_xs: 4}
+    name: address_text_box
+    properties: {placeholder: Address}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+  - layout_properties: {col_xs: 0, row: JULZRI, width_xs: 4}
+    name: username_text_box
+    properties: {label: '', placeholder: Username}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+  - event_bindings: {change: documentation_dropdown_btn_menu_show}
+    layout_properties: {col_xs: 9, row: AROTIM, width_xs: 3}
+    name: documents_multi_menu
+    properties: {align: left, enable_filtering: true, multiple: false, placeholder: KB Resources}
+    type: form:dep_64n6w4mctd8suj:MultiSelectDropDown
+  - data_bindings: []
+    layout_properties: {col_xs: 0, row: UTULIQ, width_xs: 4}
+    name: password_text_box
+    properties: {hide_text: true, placeholder: Password}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+  - data_bindings: []
+    layout_properties: {col_xs: 0, row: MEEODP, width_xs: 4}
+    name: port_text_box
+    properties: {label_bold: false, placeholder: Port, text: '22'}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+  - event_bindings: {change: bunkers_list_change}
+    layout_properties: {col_xs: 0, row: PYYUMC, width_xs: 4}
+    name: bunkers_list
+    properties: {}
+    type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
+  - event_bindings: {click: manual_ssh_btn_click}
+    layout_properties: {col_xs: 0, row: ANBTTQ, width_xs: 2}
+    name: manual_ssh_btn
+    properties: {align: left, text: SSH}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
+  - event_bindings: {click: check_port_btn_click}
+    layout_properties: {col_xs: 2, row: ANBTTQ, width_xs: 2}
+    name: check_port_btn
+    properties: {align: right, text: Telnet}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
+  - event_bindings: {click: ping_btn_click}
+    layout_properties: {col_xs: 0, row: CRBBBB, width_xs: 2}
+    name: ping_btn
+    properties: {align: left, text: Ping}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
+  - event_bindings: {click: recordings_btn_click}
+    layout_properties: {col_xs: 2, row: CRBBBB, width_xs: 2}
+    name: recordings_btn
+    properties: {align: right, text: Recordings}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
+  layout_properties: {grid_position: 'NZBQQF,PLJMBS'}
+  name: grid_panel_1
+  properties: {}
+  type: GridPanel
+container: {type: ColumnPanel}
+is_package: true

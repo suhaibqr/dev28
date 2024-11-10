@@ -120,9 +120,9 @@ def transform_to_dict(data_structure):
     Returns:
         list: A list of dictionaries where each dictionary maps the fields to the corresponding data values.
     """
-    fields = data_structure.get('fields', {})
+    fields = data_structure.get('fields', {}) or data_structure.get('keys', {}) 
     data = data_structure.get('data', [])
-    
+
     if not fields or not isinstance(data, list):
         raise ValueError("Invalid data structure. Ensure 'fields' is a dict and 'data' is a list of lists.")
     
@@ -135,5 +135,5 @@ def transform_to_dict(data_structure):
         {key: row[index] for key, index in zip(keys, indices)}
         for row in data
     ]
-    
+   
     return dict_list

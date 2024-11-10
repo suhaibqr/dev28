@@ -9,7 +9,7 @@ components:
 - event_bindings: {click: copy_password_btn_click}
   layout_properties: {column: WPMRDF}
   name: copy_password_btn
-  properties: {font_size: 10, icon_size: 30, text: Copy Password}
+  properties: {font_size: 10, icon_size: 30, text: Password}
   type: form:dep_lin1x4oec0ytd:_Components.Button
 - data_bindings: []
   event_bindings: {click: description_btn_click}

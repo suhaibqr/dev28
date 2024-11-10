@@ -1,0 +1,11 @@
+components:
+- data_bindings:
+  - {code: 'self.item[''hostname'']', property: text, writeback: false}
+  - {code: self.item, property: item, writeback: false}
+  event_bindings: {click: ssh_session_link_click}
+  layout_properties: {column: FCZZTH}
+  name: ssh_session_link
+  properties: {bold: true, text: ''}
+  type: form:dep_lin1x4oec0ytd:_Components.Link
+container: {type: DataRowPanel}
+is_package: true

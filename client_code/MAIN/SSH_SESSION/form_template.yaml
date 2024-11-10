@@ -1,0 +1,14 @@
+components:
+- components:
+  - name: repeating_panel_1
+    properties: {item_template: MAIN.SSH_SESSION.RowTemplate4}
+    type: RepeatingPanel
+  layout_properties: {grid_position: 'RLTWVJ,YNHIEA'}
+  name: data_grid_1
+  properties:
+    columns:
+    - {data_key: hostname, id: FCZZTH, title: Device}
+    - {data_key: currenttime, id: TPCXNR, title: Time}
+  type: DataGrid
+container: {type: ColumnPanel}
+is_package: true

@@ -7,6 +7,8 @@ import anvil.users
 import anvil.server
 from .INVENTORY import INVENTORY
 from .DEVICE_DETAILS_SIDE import DEVICE_DETAILS_SIDE
+from .TOOLS import TOOLS
+from .SSH_SESSION import SSH_SESSION
 from ..bunkers import get_bunkers_list
 was_built = []
 
@@ -30,15 +32,18 @@ class MAIN(MAINTemplate):
   def init_forms(self):
     self.inventory_form = INVENTORY()
     self.device_details_form = DEVICE_DETAILS_SIDE()
+    self.ssh_sessions_form = SSH_SESSION()
+    self.automation_navigation_link.badge = True
+    self.automation_navigation_link.badge_count = 0
+    self.tools_form = TOOLS()
     pass
 
   def inventory_nav_btn_click(self, **event_args):
     if "inventory_form" not in was_built:
       self.inventory_form.build_form()
       was_built.append("inventory_form")
-      self.main_col_panel.clear()
-      self.main_col_panel.add_component(self.inventory_form)
     self.inventory_form.remove_from_parent()
+    self.main_col_panel.clear()
     self.main_col_panel.add_component(self.inventory_form)
     """This method is called when the component is clicked"""
     pass
@@ -58,8 +63,23 @@ class MAIN(MAINTemplate):
 
   def button_1_click(self, **event_args):
     """This method is called when the component is clicked."""
-    print(get_bunkers_list())
-    pass
-    
-    
 
+    pass
+
+  def tools_navigation_link_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    self.sidesheet_content_col.clear()
+    self.main_col_panel.clear()
+    self.tools_form.remove_from_parent()
+    self.tools_form.reset_form()
+    self.tools_form.build_form()
+    self.main_col_panel.add_component(self.tools_form)
+    
+    
+  def ssh_sessions_sidesheet(self, d):
+    self.sidesheet_content_col.clear()
+    self.ssh_sessions_form.remove_from_parent()
+    self.ssh_sessions_form.reset_form()
+    self.ssh_sessions_form.build_form(d)
+    self.sidesheet_content_col.add_component(self.ssh_sessions_form)
+    self.layout.show_sidesheet = True

@@ -6,7 +6,7 @@ from anvil.tables import app_tables
 import anvil.users
 import anvil.server
 from anvil.js.window import navigator
-
+from ....automation import check_if_inside_automation_list
 
 class RowTemplate3(RowTemplate3Template):
   def __init__(self, **properties):
@@ -19,7 +19,19 @@ class RowTemplate3(RowTemplate3Template):
     """This method is called clicked"""
     f = get_open_form()
     f.device_details_form.edit_boxes(self.item)
-    pass
+
+    hostname = f.device_details_form.address_text_box.text
+    username = f.device_details_form.username_text_box.text
+
+    
+    d = {
+      "hostname": hostname,
+      "username": username,
+    }
+    if check_if_inside_automation_list(d):
+      f.device_details_form.automation_toggle_btn.selected = True
+      print("it was selected")
+
 
 
   def activate_description_btn(self):
