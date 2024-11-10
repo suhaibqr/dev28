@@ -21,7 +21,7 @@ components_by_slot:
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
   - layout_properties: {}
     name: automation_navigation_link
-    properties: {icon: 'mi:robot_2', text: Automation}
+    properties: {icon: 'mi:robot_2', text: Network Automation}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
   sidesheet:
   - components:
