@@ -15,7 +15,8 @@ class RowTemplate5(RowTemplate5Template):
     # Any code you write here will run before the form opens.
 
   def delete_click(self, **event_args):
-    self.remove_from_parent()
-    row = DataRowPanel(item={"address": None,"username": None, "password": None,"port": None,"enablesecret": None, "device_type": None})
-    self.add_component(row) 
+    print(type(self.parent), self.parent)
+    # self.remove_from_parent()
+    # row = DataRowPanel(item={"address": None,"username": None, "password": None,"port": None,"enablesecret": None, "device_type": None})
+    # self.add_component(row) 
     pass
