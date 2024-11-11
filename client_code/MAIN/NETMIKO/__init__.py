@@ -33,10 +33,9 @@ class NETMIKO(NETMIKOTemplate):
 
   def check_prompt_btn_click(self, **event_args):
     """This method is called when the component is clicked."""
-    a = self.repeating_panel.get_components()
     for i in self.repeating_panel.get_components():
       for r in i.get_components():      
-        print(type(r), r )         
+        print(r.__name__, r.__dict__, r.__repr__, r)
     pass
 
 
