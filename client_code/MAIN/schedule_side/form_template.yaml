@@ -14,7 +14,7 @@ components:
     type: form:dep_lin1x4oec0ytd:_Components.RadioButton
   - layout_properties: {}
     name: radio_button_2
-    properties: {text: Intervally, value: '"ineterval"'}
+    properties: {text: Intervally, value: '"interval"'}
     type: form:dep_lin1x4oec0ytd:_Components.RadioButton
   - layout_properties: {slot: default}
     name: radio_button_5
@@ -70,19 +70,23 @@ components:
   type: ColumnPanel
 - components:
   - components:
+    - layout_properties: {grid_position: 'HCRESE,QIQDRD'}
+      name: interval_min_box
+      properties: {label: Enter Interval in Minutes}
+      type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
     - components:
-      - layout_properties: {}
-        name: rich_text_1
-        properties: {content: Start From Now}
-        type: RichText
-      - name: start_from_switch
-        properties: {}
-        type: form:dep_lin1x4oec0ytd:_Components.Switch
       - event_bindings: {change: start_date_picker_change}
         layout_properties: {}
         name: start_date_picker
         properties: {pick_time: true, placeholder: Start Date}
         type: DatePicker
+      - event_bindings: {change: start_from_switch_change}
+        name: start_from_switch
+        properties: {}
+        type: form:dep_lin1x4oec0ytd:_Components.Switch
+      - name: rich_text_1
+        properties: {content: Start From Now}
+        type: RichText
       layout_properties: {grid_position: 'HJKJKB,WFBOTE'}
       name: flow_panel_1
       properties: {}
@@ -92,15 +96,19 @@ components:
         name: end_date_picker
         properties: {pick_time: true, placeholder: End Date}
         type: DatePicker
+      - event_bindings: {change: end_date_switch_change}
+        name: end_date_switch
+        properties: {}
+        type: form:dep_lin1x4oec0ytd:_Components.Switch
+      - layout_properties: {}
+        name: end_date_text_box
+        properties: {label: Enter Period in Minutes}
+        type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
       layout_properties: {grid_position: 'KZVEDT,WANLCH'}
       name: flow_panel_3
       properties: {}
       type: FlowPanel
-    - components:
-      - layout_properties: {}
-        name: interval_min_box
-        properties: {label: Enter Interval Length in Minutes}
-        type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+    - components: []
       layout_properties: {grid_position: 'FQKUNW,PXLVBZ'}
       name: flow_panel_4
       properties: {}
@@ -126,5 +134,19 @@ components:
   name: run_cron_col
   properties: {visible: false}
   type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'MVJIMI,GXRDWN'}
+    name: emails_text_area
+    properties: {label: 'Notifications: Enter Email Addresses seperated by ;'}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextArea
+  layout_properties: {grid_position: 'JRWGSF,PTZFAZ'}
+  name: notification_col
+  properties: {}
+  type: ColumnPanel
+- event_bindings: {click: run_btn_click}
+  layout_properties: {grid_position: 'ADQYTS,ULDJHZ'}
+  name: run_btn
+  properties: {icon: 'mi:play_circle', text: Run}
+  type: form:dep_lin1x4oec0ytd:_Components.Button
 container: {type: ColumnPanel}
 is_package: true
