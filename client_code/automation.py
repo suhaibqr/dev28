@@ -16,8 +16,8 @@ from anvil import alert, get_open_form
 
 
 t = []
-t1 = {"address": "a1","username": "i1", "password": "p1","port": "po1","enablesecret": "pe1", "device_type": "plat1"}
-t2 = {"address": "a2","username": "u2", "password": "p2","port": "po2","enablesecret": "pe2", "device_type": "plat2"}
+t1 = {"name":"n1", "host": "a1","username": "i1", "password": "p1","port": "po1","secret": "pe1", "device_type": "plat1"}
+t2 = {"name": "n2", "host": "a2","username": "u2", "password": "p2","port": "po2","secret": "pe2", "device_type": "plat2"}
 
 t.append(t1)
 t.append(t2)
@@ -25,6 +25,7 @@ t.append(t2)
 automation_devices_list =t
 
 def get_automation_devices_list():
+  # print("automation_devices_list", automation_devices_list)
   return automation_devices_list
   
 def add_to_automation_devices_list(d):

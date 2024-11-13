@@ -24,16 +24,17 @@ components:
   properties: {placeholder: Port, text: '22'}
   type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
 - data_bindings:
-  - {code: '''enablesecret''', property: tag, writeback: false}
+  - {code: '''secret''', property: tag, writeback: false}
   layout_properties: {column: WTGEKH}
   name: enablesecret
   properties: {hide_text: true, placeholder: Enable}
   type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
 - data_bindings:
   - {code: '''device_type''', property: tag, writeback: false}
+  - {code: self.netmiko_platforms, property: items, writeback: false}
   layout_properties: {column: RGWTLD}
   name: netmiko_device_type_menu
-  properties: {enable_filtering: true, multiple: false}
+  properties: {enable_filtering: true, multiple: false, width: 63%}
   type: form:dep_64n6w4mctd8suj:MultiSelectDropDown
 - event_bindings: {click: delete_click}
   layout_properties: {column: NDGTXI}
@@ -46,6 +47,12 @@ components:
   name: device_name
   properties: {placeholder: Name}
   type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+- data_bindings:
+  - {code: '''is_telnet''', property: tag, writeback: false}
+  layout_properties: {column: IHDNEI}
+  name: is_telnet
+  properties: {text: ''}
+  type: form:dep_lin1x4oec0ytd:_Components.Checkbox
 container:
   properties: {visible: true}
   type: DataRowPanel

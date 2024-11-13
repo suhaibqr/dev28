@@ -10,6 +10,7 @@ from .DEVICE_DETAILS_SIDE import DEVICE_DETAILS_SIDE
 from .TOOLS import TOOLS
 from .SSH_SESSION import SSH_SESSION
 from ..bunkers import get_bunkers_list
+
 was_built = []
 
 class MAIN(MAINTemplate):

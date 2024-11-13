@@ -14,29 +14,39 @@ import base64
 #
 
 
-def dict_to_paragraph(data, keys_to_include=None):
+def dict_to_paragraph(data, keys_to_include=None, separator="---"):
     """
-    Converts a dictionary into a string with each key-value pair on a new line,
-    separated by ":". Skips keys with empty or None values and can filter by a list of keys.
+    Converts a dictionary or a list of dictionaries into a formatted string.
+    For dictionaries, each key-value pair is on a new line, separated by ":".
+    For lists of dictionaries, each dictionary's content is separated by a defined separator.
+
+    Skips keys with empty or None values and can filter by a list of keys.
 
     Args:
-        data (dict): The dictionary to convert.
+        data (dict or list): A single dictionary or a list of dictionaries to convert.
         keys_to_include (list, optional): A list of keys to include in the output. 
                                           Defaults to None (include all keys).
+        separator (str, optional): A string used to separate each dictionary's output. 
+                                   Defaults to "---".
 
     Returns:
         str: A formatted string.
     """
-    # Use all keys if no specific keys are provided
-    keys_to_include = keys_to_include or data.keys()
-    
-    # Generate the output string
-    return '\n'.join(
-        f"{key}: {value}" for key, value in data.items()
-        if key in keys_to_include and value
-    )
+    keys_to_include = keys_to_include or []
 
+    def format_dict(single_data):
+        """Helper function to format a single dictionary."""
+        return '\n'.join(
+            f"{key}: {value}" for key, value in single_data.items()
+            if (not keys_to_include or key in keys_to_include) and value
+        )
 
+    if isinstance(data, dict):
+        return format_dict(data)
+    elif isinstance(data, list):
+        return f"\n{separator}\n".join(format_dict(item) for item in data if isinstance(item, dict))
+    else:
+        raise ValueError("Input must be a dictionary or a list of dictionaries.")
 
 
 def decode_base64(encoded_str):

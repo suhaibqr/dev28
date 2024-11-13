@@ -37,15 +37,20 @@ components:
   type: ColumnPanel
 - components:
   - components:
-    - event_bindings: {click: add_row_to_grid_click}
+    - event_bindings: {click: add_from_inventory_click}
       layout_properties: {}
-      name: add_row_to_grid
-      properties: {text: Add Device, visible: true}
+      name: add_from_inventory
+      properties: {text: Add From Inventory, visible: true}
       type: form:dep_lin1x4oec0ytd:_Components.Button
     - event_bindings: {click: check_prompt_btn_click}
       layout_properties: {}
       name: check_prompt_btn
-      properties: {align: left, text: Check Prompt}
+      properties: {align: left, text: Check Prompt, visible: true}
+      type: form:dep_lin1x4oec0ytd:_Components.Button
+    - event_bindings: {click: add_row_manually_click}
+      layout_properties: {}
+      name: add_row_manually
+      properties: {text: Add Manually}
       type: form:dep_lin1x4oec0ytd:_Components.Button
     layout_properties: {}
     name: flow_panel_1
@@ -54,16 +59,42 @@ components:
   - name: repeating_panel
     properties: {item_template: MAIN.NETMIKO.RowTemplate5}
     type: RepeatingPanel
+  - components:
+    - layout_properties: {}
+      name: rich_text_2
+      properties: {content: Show Commands, format: plain_text}
+      type: RichText
+    - name: is_config
+      properties: {align: center, selected: false, selected_icon: 'mi:settings', unselected_icon: 'mi:remove_red_eye'}
+      type: form:dep_lin1x4oec0ytd:_Components.Switch
+    - layout_properties: {}
+      name: rich_text_1
+      properties: {content: Config Commands, format: plain_text}
+      type: RichText
+    name: flow_panel_2
+    properties: {}
+    type: FlowPanel
+  - event_bindings: {change: text_area_1_change}
+    layout_properties: {}
+    name: text_area_1
+    properties: {label: Enter Commands Here; Each command in seperate Line}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextArea
+  - event_bindings: {click: set_run_time_click}
+    layout_properties: {slot: footer}
+    name: set_run_time
+    properties: {text: Set Run Time}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
   layout_properties: {grid_position: 'BBDZGE,DWMVED'}
   name: data_grid
   properties:
     columns:
-    - {data_key: column_1, id: XFTFKO, title: Column 1}
-    - {data_key: address, id: VEMWMX, title: Address}
+    - {data_key: name, id: XFTFKO, title: Name}
+    - {data_key: host, id: VEMWMX, title: Address}
     - {data_key: username, id: WYRPRD, title: Username}
     - {data_key: password, id: FUGQCY, title: Password}
     - {data_key: port, id: YWOPLJ, title: Port}
-    - {data_key: enablesecret, id: WTGEKH, title: EnableSecret}
+    - {data_key: secret, id: WTGEKH, title: EnableSecret}
+    - {data_key: is_telnet, id: IHDNEI, title: Telnet}
     - {data_key: device_type, id: RGWTLD, title: DeviceType}
     - {data_key: column_1, id: NDGTXI, title: ''}
     rows_per_page: 4
