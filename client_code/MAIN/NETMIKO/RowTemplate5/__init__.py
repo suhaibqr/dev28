@@ -26,8 +26,15 @@ class RowTemplate5(RowTemplate5Template):
     # print(self.item)
     self.clear()
     self.parent.items.remove(self.item)
+    self.remove_from_parent()
+    get_open_form().netmiko_task_form.add_row_manually_click(**event_args)
+    # get_open_form().netmiko_task_form.add_row_manually_click({})
    
     # print(self.parent.items.remove())
     # row = DataRowPanel(item={"address": None,"username": None, "password": None,"port": None,"enablesecret": None, "device_type": None})
     # self.add_component(row) 
+    pass
+
+  def netmiko_device_type_menu_change(self, **event_args):
+    """This method is called when the selected values change"""
     pass

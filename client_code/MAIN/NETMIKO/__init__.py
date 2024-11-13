@@ -31,18 +31,22 @@ class NETMIKO(NETMIKOTemplate):
   def add_from_inventory_click(self, **event_args):
     """This method is called when the component is clicked."""
 
-    # if not self.repeating_panel.items or self.repeating_panel.items == []:
-    #   t = get_automation_devices_list()[:]
-    #   self.repeating_panel.items = [*t]
-    # else:
-    self.repeating_panel.items = [*self.repeating_panel.items, *get_automation_devices_list()]
+    olds = []
+    for i in self.repeating_panel.get_components():
+      old = {"name": i.device_name.text, "host": i.address.text, "username": i.username.text, "password": i.password.text, "port": i.port.text, "secret": i.enablesecret.text,"device_type": i.netmiko_device_type_menu.selected }
+      olds.append(old)
+    
+    self.repeating_panel.items = [*olds, *get_automation_devices_list()]
 
     pass
 
 
   def check_prompt_btn_click(self, **event_args):
     """This method is called when the component is clicked."""
-    self.build_netmiko_list()
+    a =  self.build_netmiko_list()
+    if not a:
+      return
+  
     if not self.netmiko_devices:
       Notification("No devices").show()
       return
@@ -50,6 +54,10 @@ class NETMIKO(NETMIKOTemplate):
     set2 = {frozenset(self.normalize_dict(d).items()) for d in self.checked_prompt_list}
     if set1 == set2:
       Notification("Already Checked Prompt").show()
+      return
+
+    if not self.bunkers_drop_menu.selected_value:
+      Notification("Select Bunker").show()
       return
     try:
       # r = anvil.server.call("check_prompt", self.netmiko_devices, self.bunkers_drop_menu.selected_value)
@@ -73,10 +81,19 @@ class NETMIKO(NETMIKOTemplate):
 
   def add_row_manually_click(self, **event_args):
     """This method is called when the component is clicked."""
+    olds = []
+    for i in self.repeating_panel.get_components():
+      old = {"name": i.device_name.text, "host": i.address.text, "username": i.username.text, "password": i.password.text, "port": i.port.text, "secret": i.enablesecret.text,"device_type": i.netmiko_device_type_menu.selected }
+      olds.append(old)
+
+    if event_args['sender'].tag == "remove_btn":
+      self.repeating_panel.items = [*olds]
+      return
+    
     if self.repeating_panel.items:
-      self.repeating_panel.items = [*self.repeating_panel.items, {"name": "zzz", "host": None,"username": None, "password": None,"port": None,"secret": None, "device_type": None}]
+      self.repeating_panel.items = [*olds, {"name": "", "host": "","username": "", "password": "","port": "","secret": "", "device_type": [None]}]
     else:
-      self.repeating_panel.items = [{"name": "zzz", "host": None,"username": None, "password": None,"port": None,"secret": None, "device_type": None}]
+      self.repeating_panel.items = [{"name": "", "host": "","username": "", "password": "","port": "","secret": "", "device_type": [None]}]
     pass
 
   def cli_commands_text_area_change(self, **event_args):
@@ -86,7 +103,11 @@ class NETMIKO(NETMIKOTemplate):
   def set_run_time_click(self, **event_args):
     """This method is called when the component is clicked."""
   
-    self.build_netmiko_list()
+    if not self.build_netmiko_list():
+      return
+    if not self.netmiko_devices:
+      Notification("No Devices").show()
+      return
     set1 = {frozenset(self.normalize_dict(d).items()) for d in self.netmiko_devices}
     set2 = {frozenset(self.normalize_dict(d).items()) for d in self.checked_prompt_list}
 
@@ -95,17 +116,21 @@ class NETMIKO(NETMIKOTemplate):
     if not self.checked_prompt:
       Notification("Check Prompt First").show()
       return
-      
+    if not self.bunkers_drop_menu.selected_value:
+      Notification("Select Bunker").show()
+      return
     t = {}
     t["commands"] =[line.strip() for line in self.cli_commands_text_area.text.splitlines() if line.strip()]
     t["task_friendly_name"] = self.friendly_name_text_box.text or "Netmiko_Task"
     t["devices"] = self.netmiko_devices
+    t['bunnker_id'] = self.bunkers_drop_menu.selected_value
     # alert(f"Will Check the prompt for the following, please confirm:\n{dict_to_paragraph(t)}", large = True)
     add_task_args(t)
     f = get_open_form()
     f.sidesheet_content_col.clear()
     f.schedule_side.task_description_text_box.text = dict_to_paragraph(t)   
     f.sidesheet_content_col.add_component(f.schedule_side)
+    f.sidesheet_heading.text = "Set Task Timing"
     f.layout.show_sidesheet = True
     pass
     
@@ -118,34 +143,46 @@ class NETMIKO(NETMIKOTemplate):
 
   def build_netmiko_list(self):
     self.netmiko_devices = []
-  
+    if not self.repeating_panel.get_components():
+      Notification("No devices added").show()
+      return False
     for i in self.repeating_panel.get_components():
-      self.device = {}
-      print('repeating_panel componenets', i.__name__)
-      for r in i.get_components():
-        # print('Rows componenets', r.__name__)
-        if r.tag == "name":
-          # print('name', r.text)
-          self.device['name'] = r.text
-        if r.tag == 'address':
-         self. device['host'] = r.text
-        if r.tag == "username":
-          self.device["username"] = r.text
-        if r.tag == 'password':
-          self.device["password"] = r.text
-        if r.tag == 'port':
-          self.device["port"] = 'port'
-        if r.tag == 'secret':
-          self.device['secret'] = r.text
-        if r.tag == 'device_type':
-          self.device['device_type'] = r.selected
-        if r.tag == 'is_telnet':
-          # print("found telnet")
-          self.device['is_telnet'] = r.checked or False
-      if not self.device:
-        Notification("No devices added").show()
-        return
-      if not all([self.device['name'],self.device['host'], self.device['username'], self.device['password'], self.device['port'], self.device['device_type'] ]):
+      if not all([i.device_name.text,i.address.text, i.username.text, i.password.text,i.port.text, i.netmiko_device_type_menu.selected ]):
         Notification("Name, Address, Username, Password, Port, Device Type: Are Mandatory", title="Some Fields are missing").show()
-        return
-      self.netmiko_devices.append(self.device)
+        return False
+      row = {"name": i.device_name.text, "host": i.address.text, "username": i.username.text, "password": i.password.text, "port": i.port.text, "secret": i.enablesecret.text,"device_type": i.netmiko_device_type_menu.selected }
+      self.netmiko_devices.append(row)
+    return True
+
+    
+    # for i in self.repeating_panel.get_components():
+    #   self.device = {}
+    #   print('repeating_panel componenets', i.__name__)
+    #   for r in i.get_components():
+    #     # print('Rows componenets', r.__name__)
+    #     if r.tag == "name":
+    #       # print('name', r.text)
+    #       self.device['name'] = r.text
+    #     if r.tag == 'address':
+    #      self. device['host'] = r.text
+    #     if r.tag == "username":
+    #       self.device["username"] = r.text
+    #     if r.tag == 'password':
+    #       self.device["password"] = r.text
+    #     if r.tag == 'port':
+    #       self.device["port"] = 'port'
+    #     if r.tag == 'secret':
+    #       self.device['secret'] = r.text
+    #     if r.tag == 'device_type':
+    #       self.device['device_type'] = r.selected
+    #     if r.tag == 'is_telnet':
+    #       # print("found telnet")
+    #       self.device['is_telnet'] = r.checked or False
+    #   if not self.device:
+    #     # Notification("No devices added").show()
+    #     return
+    #   if not all([self.device['name'],self.device['host'], self.device['username'], self.device['password'], self.device['port'], self.device['device_type'] ]):
+    #     Notification("Name, Address, Username, Password, Port, Device Type: Are Mandatory", title="Some Fields are missing").show()
+    #     return False
+    #   self.netmiko_devices.append(self.device)
+    #   return True

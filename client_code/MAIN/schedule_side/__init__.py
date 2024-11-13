@@ -7,7 +7,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 from datetime import datetime , timedelta
 from ...tools import dict_to_paragraph
-from ...bunkers import get_bunkers_list
+# from ...bunkers import get_bunkers_list
+from ...automation import get_task_args
 
 
 class schedule_side(schedule_sideTemplate):
@@ -15,7 +16,7 @@ class schedule_side(schedule_sideTemplate):
     # Set Form properties and Data Bindings.
    
     self.not_before = datetime.now()
-    self.bunkers = get_bunkers_list()
+    # self.bunkers = get_bunkers_list()
     self.init_components(**properties)
     self.cols = [self.run_now_col,self.run_at_col,self.run_after_col,self.run_intervally_col,self.run_cron_col]
     
@@ -114,9 +115,19 @@ class schedule_side(schedule_sideTemplate):
 
     task["recipient"] = self.emails_text_area.text.split(";") or None
 
-    if not self.bunkers_list_menu.selected_value:
-      Notification("Please Select Bunker")
+    # if not self.bunkers_list_menu.selected_value:
+    #   Notification("Please Select Bunker")
+    if not self.radio_group_panel.selected_value:
+      Notification("You have to select trigger type").show()
+      return
+    # print("get_task_args",get_task_args())
+    if not get_task_args():
+      Notification("No Task to add").show()
+      return
+    task.update({"arguments": get_task_args()})
+    task.update({"notifications": ["email"]})
     self.result.content = dict_to_paragraph(task)
+    print(task)
       # task['start_date'] = self.start_date_picker.date or 
     pass
    

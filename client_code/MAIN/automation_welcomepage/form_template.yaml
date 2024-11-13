@@ -27,16 +27,22 @@ components:
     name: heading_3
     properties: {bold: true, style: title, text: Monitoring Tasks}
     type: form:dep_lin1x4oec0ytd:_Components.Heading
-  - name: button_2
+  - event_bindings: {click: open_ping_task_btn_click}
+    name: open_ping_task_btn
     properties: {text: Ping}
     type: form:dep_lin1x4oec0ytd:_Components.Button
-  - layout_properties: {}
-    name: button_3
+  - event_bindings: {click: open_check_ports_task_btn_click}
+    layout_properties: {}
+    name: open_check_ports_task_btn
     properties: {text: Check Ports}
     type: form:dep_lin1x4oec0ytd:_Components.Button
   layout_properties: {grid_position: 'HMEKPA,VJQKFW', row_background: 'theme:Primary Container'}
   name: monitoring_tasks
   properties: {}
   type: FlowPanel
+- layout_properties: {grid_position: 'ITYXPH,PYWBFJ'}
+  name: tasks_col
+  properties: {}
+  type: ColumnPanel
 container: {type: ColumnPanel}
 is_package: true

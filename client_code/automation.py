@@ -16,7 +16,7 @@ task_args = {}
 
 
 t = []
-t1 = {"name":"n1", "host": "a1","username": "i1", "password": "p1","port": "po1","secret": "pe1", "device_type": "plat1"}
+t1 = {"name":"n1", "host": "a1","username": "i1", "password": "p1","port": "po1","secret": "pe1", "device_type": ["cisco_ios"]}
 # t2 = {"name": "n2", "host": "a2","username": "u2", "password": "p2","port": "po2","secret": "pe2", "device_type": "plat2"}
 
 t.append(t1)
@@ -55,11 +55,11 @@ def check_if_inside_automation_list(d):
 
 def add_task_args(t):
   global pending_task
-  task_args = t
-  return task_args
+  pending_task = t
+
 
 def get_task_args():
-  return task_args
+  return pending_task
 
   
   

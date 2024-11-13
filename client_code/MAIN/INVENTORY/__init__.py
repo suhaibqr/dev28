@@ -43,7 +43,7 @@ class INVENTORY(INVENTORYTemplate):
 
   def search_engine_text_box_pressed_enter(self, **event_args):
     """This method is called when the user presses enter in this component."""
-    print(self.search_engine_text_box.text)
+    # print(self.search_engine_text_box.text)
     self.inventory_table.search_by_string(self.search_engine_text_box.text)
     self.inventory_rep.items = self.inventory_table.filtered_list
    

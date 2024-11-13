@@ -150,12 +150,6 @@ components:
   name: notification_col
   properties: {}
   type: ColumnPanel
-- data_bindings:
-  - {code: self.bunkers, property: items, writeback: false}
-  layout_properties: {full_width_row: false, grid_position: 'ADQYTS,GWVOXD'}
-  name: bunkers_list_menu
-  properties: {label: Select Bunker to Run The Task}
-  type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
 - event_bindings: {click: run_btn_click}
   layout_properties: {grid_position: 'ADQYTS,ULDJHZ'}
   name: run_btn

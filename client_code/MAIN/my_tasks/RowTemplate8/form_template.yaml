@@ -1,0 +1,13 @@
+components:
+- event_bindings: {click: cancel_task_btn_click}
+  layout_properties: {column: SBNOTP}
+  name: cancel_task_btn
+  properties: {icon: 'mi:cancel'}
+  type: form:dep_lin1x4oec0ytd:_Components.IconButton
+- event_bindings: {click: task_args_btn_click}
+  layout_properties: {column: MITGUM}
+  name: task_args_btn
+  properties: {icon: 'mi:info'}
+  type: form:dep_lin1x4oec0ytd:_Components.IconButton
+container: {type: DataRowPanel}
+is_package: true

@@ -1,0 +1,23 @@
+components:
+- layout_properties: {grid_position: 'CJHGHW,TBARUQ'}
+  name: address_text_box
+  properties: {label: Enter Addresses seperated by comma}
+  type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextArea
+- components:
+  - data_bindings:
+    - {code: self.bunkers, property: items, writeback: false}
+    event_bindings: {change: bunkers_drop_down_menu_change}
+    name: bunkers_drop_down_menu
+    properties: {label: Select Bunker}
+    type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
+  layout_properties: {grid_position: 'GZHJWR,JRGCXK'}
+  name: flow_panel_1
+  properties: {}
+  type: FlowPanel
+- event_bindings: {click: run_ping_task_click}
+  layout_properties: {grid_position: 'PEKDWX,OHKUYC'}
+  name: run_ping_task
+  properties: {text: Run}
+  type: form:dep_lin1x4oec0ytd:_Components.Button
+container: {type: ColumnPanel}
+is_package: true

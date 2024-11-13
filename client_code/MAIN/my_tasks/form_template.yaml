@@ -1,0 +1,63 @@
+components:
+- components:
+  - event_bindings: {click: get_active_tasks_btn_click}
+    layout_properties: {}
+    name: get_active_tasks_btn
+    properties: {text: Get All Team Active Tasks}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
+  - event_bindings: {click: get_old_tasks_btn_click}
+    layout_properties: {}
+    name: get_old_tasks_btn
+    properties: {text: Get Previous Results}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
+  layout_properties: {grid_position: 'KNMCNM,WWZHTX'}
+  name: flow_panel_1
+  properties: {background: 'theme:Primary Container'}
+  type: FlowPanel
+- components:
+  - event_bindings: {change: search_text_box_change, pressed_enter: search_text_box_pressed_enter}
+    layout_properties: {}
+    name: search_text_box
+    properties: {label: Search Engine}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+  - name: active_tasks_repeating_panel
+    properties: {item_template: MAIN.my_tasks.RowTemplate8}
+    type: RepeatingPanel
+  layout_properties: {grid_position: 'KMIXTR,HFVZSF'}
+  name: team_active_tasks
+  properties:
+    columns:
+    - {data_key: task_type, id: YBGRSY, title: Task Type}
+    - {data_key: task_friendly_name, id: SZEXNH, title: Task Name}
+    - {data_key: owner, id: VFUBDY, title: Owner}
+    - {data_key: next_run, id: NGIGDJ, title: Next Run}
+    - {data_key: bunker_id, id: CQAVDN, title: Bunker}
+    - {data_key: details, id: MITGUM, title: Details}
+    - {data_key: cancel, id: SBNOTP, title: Cancel}
+    visible: false
+  type: DataGrid
+- components:
+  - event_bindings: {pressed_enter: old_tasks_search_engine_box_pressed_enter}
+    layout_properties: {}
+    name: old_tasks_search_engine_box
+    properties: {label: Search Engine}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+  - name: old_tasks_repeating_panel
+    properties: {item_template: MAIN.my_tasks.RowTemplate9}
+    type: RepeatingPanel
+  layout_properties: {grid_position: 'RUWOYB,ODWDWU'}
+  name: old_tasks_data_grid
+  properties:
+    columns:
+    - {data_key: column_1, id: LAWXUQ, title: Task Type}
+    - {data_key: column_2, id: KDYLEG, title: Task Name}
+    - {data_key: column_3, id: PTFDSE, title: Owner}
+    - {data_key: column_1, id: XZQGIN, title: Bunker}
+    - {data_key: column_4, id: CGBZNZ, title: Started At}
+    - {data_key: column_2, id: QVLZZN, title: Finished At}
+    - {data_key: column_3, id: FXUFYE, title: Args}
+    - {data_key: column_1, id: YNOLTC, title: Result}
+    visible: false
+  type: DataGrid
+container: {type: ColumnPanel}
+is_package: true

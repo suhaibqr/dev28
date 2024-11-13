@@ -32,11 +32,15 @@ components:
 - data_bindings:
   - {code: '''device_type''', property: tag, writeback: false}
   - {code: self.netmiko_platforms, property: items, writeback: false}
+  - {code: 'self.item[''device_type'']', property: selected, writeback: false}
+  event_bindings: {change: netmiko_device_type_menu_change}
   layout_properties: {column: RGWTLD}
   name: netmiko_device_type_menu
   properties: {enable_filtering: true, multiple: false, width: 63%}
   type: form:dep_64n6w4mctd8suj:MultiSelectDropDown
-- event_bindings: {click: delete_click}
+- data_bindings:
+  - {code: '''remove_btn''', property: tag, writeback: false}
+  event_bindings: {click: delete_click}
   layout_properties: {column: NDGTXI}
   name: delete
   properties: {icon: 'mi:cleaning_services'}

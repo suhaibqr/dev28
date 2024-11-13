@@ -1,0 +1,13 @@
+components:
+- event_bindings: {click: old_task_result_btn_click}
+  layout_properties: {column: YNOLTC}
+  name: old_task_result_btn
+  properties: {icon: 'mi:folder'}
+  type: form:dep_lin1x4oec0ytd:_Components.IconButton
+- event_bindings: {click: old_task_args_btn_click}
+  layout_properties: {column: FXUFYE}
+  name: old_task_args_btn
+  properties: {icon: 'mi:info'}
+  type: form:dep_lin1x4oec0ytd:_Components.IconButton
+container: {type: DataRowPanel}
+is_package: true

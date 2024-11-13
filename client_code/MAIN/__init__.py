@@ -13,6 +13,9 @@ from ..bunkers import get_bunkers_list
 from .schedule_side import schedule_side
 from .automation_welcomepage import automation_welcomepage
 from .NETMIKO import NETMIKO
+from .check_ports_task import check_ports_task
+from ..task_ping import task_ping
+from .my_tasks import my_tasks
 was_built = []
 
 class MAIN(MAINTemplate):
@@ -43,6 +46,9 @@ class MAIN(MAINTemplate):
     self.automation_navigation_link.badge = True
     self.automation_navigation_link.badge_count = 0
     self.tools_form = TOOLS()
+    self.ping_task_form = task_ping()
+    self.my_tasks_form = my_tasks()
+    self.check_ports_task_form = check_ports_task()
     pass
 
   def inventory_nav_btn_click(self, **event_args):
@@ -51,6 +57,8 @@ class MAIN(MAINTemplate):
       was_built.append("inventory_form")
     self.inventory_form.remove_from_parent()
     self.main_col_panel.clear()
+    if self.main_col_panel.get_components():
+      return
     self.main_col_panel.add_component(self.inventory_form)
     """This method is called when the component is clicked"""
     pass
@@ -80,6 +88,8 @@ class MAIN(MAINTemplate):
     self.tools_form.remove_from_parent()
     self.tools_form.reset_form()
     self.tools_form.build_form()
+    if self.main_col_panel.get_components():
+      return
     self.main_col_panel.add_component(self.tools_form)
     
     
@@ -95,4 +105,10 @@ class MAIN(MAINTemplate):
     """This method is called when the component is clicked"""
     self.main_col_panel.clear()
     self.main_col_panel.add_component(self.automation_welcome)
+    pass
+
+  def my_tasks_nav_btn_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    self.main_col_panel.clear()
+    self.main_col_panel.add_component(self.my_tasks_form)
     pass

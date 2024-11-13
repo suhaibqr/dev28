@@ -17,7 +17,25 @@ class automation_welcomepage(automation_welcomepageTemplate):
   def open_netmiko_task_form_btn_click(self, **event_args):
     """This method is called when the component is clicked."""
     f = get_open_form()
-    f.main_col_panel.clear()
-    f.main_col_panel.add_component(f.netmiko_task_form)
+    # f.main_col_panel.clear()
+    # f.main_col_panel.add_component(f.netmiko_task_form)
+    self.tasks_col.clear()
+    self.tasks_col.add_component(f.netmiko_task_form)
+    f.layout.show_sidesheet = False
+    pass
+
+  def open_ping_task_btn_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    f = get_open_form()
+    self.tasks_col.clear()
+    self.tasks_col.add_component(f.ping_task_form)
+    f.layout.show_sidesheet = False
+    pass
+
+  def open_check_ports_task_btn_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    f = get_open_form()
+    self.tasks_col.clear()
+    self.tasks_col.add_component(f.check_ports_task_form)
     f.layout.show_sidesheet = False
     pass
