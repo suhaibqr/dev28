@@ -12,15 +12,15 @@ from anvil import alert, get_open_form
 #    Module1.say_hello()
 #
 
-
+task_args = {}
 
 
 t = []
 t1 = {"name":"n1", "host": "a1","username": "i1", "password": "p1","port": "po1","secret": "pe1", "device_type": "plat1"}
-t2 = {"name": "n2", "host": "a2","username": "u2", "password": "p2","port": "po2","secret": "pe2", "device_type": "plat2"}
+# t2 = {"name": "n2", "host": "a2","username": "u2", "password": "p2","port": "po2","secret": "pe2", "device_type": "plat2"}
 
 t.append(t1)
-t.append(t2)
+# t.append(t2)
 
 automation_devices_list =t
 
@@ -52,3 +52,14 @@ def check_if_inside_automation_list(d):
       if d["hostname"] == i["hostname"] and d["username"] == i["username"]:
         return True
     return False
+
+def add_task_args(t):
+  global pending_task
+  task_args = t
+  return task_args
+
+def get_task_args():
+  return task_args
+
+  
+  

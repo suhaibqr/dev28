@@ -13,8 +13,9 @@ components:
     name: heading_2
     properties: {bold: true, style: title, text: CLI Tasks}
     type: form:dep_lin1x4oec0ytd:_Components.Heading
-  - layout_properties: {}
-    name: button_1
+  - event_bindings: {click: open_netmiko_task_form_btn_click}
+    layout_properties: {}
+    name: open_netmiko_task_form_btn
     properties: {text: Netmiko}
     type: form:dep_lin1x4oec0ytd:_Components.Button
   layout_properties: {grid_position: 'CMFDJR,VHHQZU', row_background: 'theme:Tertiary Container'}

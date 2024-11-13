@@ -75,7 +75,11 @@ class TOOLS(TOOLSTemplate):
     self.bunkers_list.items = list(get_bunkers_list().keys())
     self.bunkers_list.selected_value = "TDM Vertus"
     if not was_built:
-      self.folder_list = anvil.server.call("get_folder_names")
+      try:
+        self.folder_list = anvil.server.call("get_folder_names")
+      except Exception as e:
+        Notification(f"Couldnt get Folders list: {e}")
+        self.folder_list = []
     was_built = True
       
     self.documents_multi_menu.items= self.folder_list

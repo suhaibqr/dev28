@@ -10,7 +10,9 @@ from .DEVICE_DETAILS_SIDE import DEVICE_DETAILS_SIDE
 from .TOOLS import TOOLS
 from .SSH_SESSION import SSH_SESSION
 from ..bunkers import get_bunkers_list
-
+from .schedule_side import schedule_side
+from .automation_welcomepage import automation_welcomepage
+from .NETMIKO import NETMIKO
 was_built = []
 
 class MAIN(MAINTemplate):
@@ -27,6 +29,7 @@ class MAIN(MAINTemplate):
     self.device_details_form.reset_form()
     self.device_details_form.rebuild_form()
     self.sidesheet_content_col.add_component(self.device_details_form)
+ 
     self.layout.show_sidesheet()
     pass
 
@@ -34,6 +37,9 @@ class MAIN(MAINTemplate):
     self.inventory_form = INVENTORY()
     self.device_details_form = DEVICE_DETAILS_SIDE()
     self.ssh_sessions_form = SSH_SESSION()
+    self.schedule_side = schedule_side()
+    self.netmiko_task_form = NETMIKO()
+    self.automation_welcome = automation_welcomepage()
     self.automation_navigation_link.badge = True
     self.automation_navigation_link.badge_count = 0
     self.tools_form = TOOLS()
@@ -84,3 +90,9 @@ class MAIN(MAINTemplate):
     self.ssh_sessions_form.build_form(d)
     self.sidesheet_content_col.add_component(self.ssh_sessions_form)
     self.layout.show_sidesheet = True
+
+  def automation_navigation_link_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    self.main_col_panel.clear()
+    self.main_col_panel.add_component(self.automation_welcome)
+    pass

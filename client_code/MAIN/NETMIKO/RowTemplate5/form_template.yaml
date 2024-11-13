@@ -1,6 +1,6 @@
 components:
 - data_bindings:
-  - {code: '"address"', property: tag, writeback: false}
+  - {code: '''address''', property: tag, writeback: false}
   layout_properties: {column: VEMWMX}
   name: address
   properties: {label: '', placeholder: Address}
@@ -42,7 +42,7 @@ components:
   properties: {icon: 'mi:cleaning_services'}
   type: form:dep_lin1x4oec0ytd:_Components.IconButton
 - data_bindings:
-  - {code: '"name"', property: tag, writeback: false}
+  - {code: '''name''', property: tag, writeback: false}
   layout_properties: {column: XFTFKO}
   name: device_name
   properties: {placeholder: Name}

@@ -19,7 +19,8 @@ components_by_slot:
     name: tools_navigation_link
     properties: {icon: 'mi:service_toolbox', text: Tools}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
-  - layout_properties: {}
+  - event_bindings: {click: automation_navigation_link_click}
+    layout_properties: {}
     name: automation_navigation_link
     properties: {icon: 'mi:robot_2', text: Network Automation}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink

@@ -17,7 +17,10 @@ import base64
 def dict_to_paragraph(data, keys_to_include=None, separator="---"):
     """
     Converts a dictionary or a list of dictionaries into a formatted string.
-    For dictionaries, each key-value pair is on a new line, separated by ":".
+    Handles:
+      - Key-value pairs where values can be strings, numbers, lists, or dictionaries.
+      - Lists of dictionaries, formatting each dictionary in a readable way.
+
     For lists of dictionaries, each dictionary's content is separated by a defined separator.
 
     Skips keys with empty or None values and can filter by a list of keys.
@@ -34,10 +37,22 @@ def dict_to_paragraph(data, keys_to_include=None, separator="---"):
     """
     keys_to_include = keys_to_include or []
 
+    def format_value(value):
+        """Formats values, handling lists and list of dictionaries."""
+        if isinstance(value, list):
+            if all(isinstance(item, dict) for item in value):
+                # Format a list of dictionaries
+                return "\n  - " + "\n  - ".join(f"\n{dict_to_paragraph(item)}" for item in value)
+            else:
+                # Format a list of other types
+                return "\n  - " + "\n  - ".join(str(item) for item in value)
+        return str(value)
+
     def format_dict(single_data):
         """Helper function to format a single dictionary."""
         return '\n'.join(
-            f"{key}: {value}" for key, value in single_data.items()
+            f"{key}: {format_value(value)}"
+            for key, value in single_data.items()
             if (not keys_to_include or key in keys_to_include) and value
         )
 
@@ -47,7 +62,6 @@ def dict_to_paragraph(data, keys_to_include=None, separator="---"):
         return f"\n{separator}\n".join(format_dict(item) for item in data if isinstance(item, dict))
     else:
         raise ValueError("Input must be a dictionary or a list of dictionaries.")
-
 
 def decode_base64(encoded_str):
     """

@@ -12,7 +12,7 @@ from anvil import alert
 #    Module1.say_hello()
 #
 
-bunkers_list = []
+bunkers_list = {"TDM": ["link1", "link2"],"WPG": ["link3", "link4"]}
 def get_bunkers_list():
   global bunkers_list
   if bunkers_list:
@@ -22,5 +22,5 @@ def get_bunkers_list():
       bunkers_list = anvil.server.call("get_bunkers_list")
       return bunkers_list
     except Exception as e:
-      alert(f"Failed to get bunkers list: {e}")
+      # alert(f"Failed to get bunkers list: {e}")
       return [{"No Bunkers Found": "No Bunkers Found"}]

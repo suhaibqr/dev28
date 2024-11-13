@@ -34,8 +34,12 @@ class INVENTORY(INVENTORYTemplate):
 
     
   def build_form(self):
-    get_bunkers_list()
-    self.get_inventory()
+    try:
+      get_bunkers_list()
+      self.get_inventory()
+    except Exception as e:
+      Notification("Can not Open this Page, Fetching data failed").show()
+      return
 
   def search_engine_text_box_pressed_enter(self, **event_args):
     """This method is called when the user presses enter in this component."""

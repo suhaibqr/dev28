@@ -13,3 +13,11 @@ class automation_welcomepage(automation_welcomepageTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+
+  def open_netmiko_task_form_btn_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    f = get_open_form()
+    f.main_col_panel.clear()
+    f.main_col_panel.add_component(f.netmiko_task_form)
+    f.layout.show_sidesheet = False
+    pass
