@@ -5,11 +5,11 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-from ...automation import remove_from_automation_devices_list, add_to_automation_devices_list,get_automation_devices_list, add_task_args
+from ...automation import remove_from_automation_devices_list, add_to_automation_devices_list,get_automation_devices_list, add_task_args 
 from anvil_extras.MultiSelectDropDown import MultiSelectDropDown
 from ...globals import netmiko_device_types
 from m3._Components.IconButton import IconButton
-from ...tools import dict_to_paragraph
+from ...tools import dict_to_paragraph, dict_to_yaml_string
 from ...bunkers import get_bunkers_list
 import json
 
@@ -114,37 +114,46 @@ class NETMIKO(NETMIKOTemplate):
     if not self.netmiko_devices:
       Notification("No Devices").show()
       return
-    # set1 = {frozenset(self.normalize_dict(d).items()) for d in self.netmiko_devices}
-    # set2 = {frozenset(self.normalize_dict(d).items()) for d in self.checked_prompt_list}
+    set1 = {frozenset(self.normalize_dict(d).items()) for d in self.netmiko_devices}
+    set2 = {frozenset(self.normalize_dict(d).items()) for d in self.checked_prompt_list}
 
-    # if set1 != set2:
-    #   self.checked_prompt = False
-    # if not self.checked_prompt:
-    #   Notification("Check Prompt First").show()
-    #   return
+    if set1 != set2:
+      self.checked_prompt = False
+    if not self.checked_prompt:
+      Notification("Check Prompt First").show()
+      return
     if not self.bunkers_drop_menu.selected_value:
       Notification("Select Bunker").show()
       return
+    body = {}
     tasks = []
     for d in self.netmiko_devices:
+      print(d)
       t = {}
-      t["task_name"] = "netmiko_task"
+      t["task_name"] = "task_netmiko"
       t["arguments"] = {}
-      t["arguments"]["device_name"] = d.name
-      t['arguments']["device_type"] = d.device_type
-
-
+      t["arguments"]["device_name"] = d['name']
+      t['arguments']["device_type"] = d['device_type'][0]
+      t['arguments']['username'] = d['username']
+      t['arguments']['host'] = d['host']
+      t['arguments']['password'] = d['password']
+      t['arguments']['port'] = d['port']
+      t['arguments']['is_config'] = self.is_config.selected
+      t['arguments']['use_telnet'] = d['is_telnet']
+      t['arguments']['commands'] = [line.strip() for line in self.cli_commands_text_area.text.splitlines() if line.strip()]
+      t['arguments']['user_description'] = self.friendly_name_text_box.text
+      tasks.append(t)
+    body["bunker_id"] = self.bunkers_drop_menu.selected_value
+    body["tasks"] = tasks
     
-    t["arguments"] = {}
-    t["arguments"]["commands"] =[line.strip() for line in self.cli_commands_text_area.text.splitlines() if line.strip()]
-    t["user_description"] = self.friendly_name_text_box.text or "Netmiko_Task"
-    t["arguments"]["devices"] = self.netmiko_devices
-    t['bunnker_id'] = self.bunkers_drop_menu.selected_value
-    t["task_name"] = "task_netmiko"
-    add_task_args(t)
+
+
+  
+    add_task_args(body)
     f = get_open_form()
     f.sidesheet_content_col.clear()
-    f.schedule_side.task_description_text_box.text = json.dumps(t, indent = 4)   
+    # f.schedule_side.task_description_text_box.text = json.dumps(t, indent = 4)   
+    f.schedule_side.task_description_text_box.text = dict_to_yaml_string(body)
     f.sidesheet_content_col.add_component(f.schedule_side)
     f.sidesheet_heading.text = "Set Task Timing"
     f.layout.show_sidesheet = True
@@ -166,7 +175,7 @@ class NETMIKO(NETMIKOTemplate):
       if not all([i.device_name.text,i.address.text, i.username.text, i.password.text,i.port.text, i.netmiko_device_type_menu.selected ]):
         Notification("Name, Address, Username, Password, Port, Device Type: Are Mandatory", title="Some Fields are missing").show()
         return False
-      row = {"name": i.device_name.text, "host": i.address.text, "username": i.username.text, "password": i.password.text, "port": i.port.text, "secret": i.enablesecret.text,"device_type": i.netmiko_device_type_menu.selected }
+      row = {"name": i.device_name.text, "host": i.address.text, "username": i.username.text, "password": i.password.text, "port": i.port.text, "secret": i.enablesecret.text,"is_telnet": i.is_telnet.checked , "device_type": i.netmiko_device_type_menu.selected }
       self.netmiko_devices.append(row)
     return True
 

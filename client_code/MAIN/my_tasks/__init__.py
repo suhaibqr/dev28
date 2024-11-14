@@ -5,7 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-from ...filter import DictFilter
+from ...filter import DictFilter_2
 
 class my_tasks(my_tasksTemplate):
   def __init__(self, **properties):
@@ -21,15 +21,14 @@ class my_tasks(my_tasksTemplate):
 
   def get_active_tasks_btn_click(self, **event_args):
     """This method is called when the component is clicked."""
-    
     try:
-      r = anvil.server.call("get_teams_tasks")
+      r = anvil.server.call("get_active_tasks")
       if r["status"] == "failed":
         Notification("Fetching tasks Failed").show()
         return
       self.old_tasks_data_grid.visible = False
       self.team_active_tasks.visible = True
-      self.active_tasks_table = DictFilter(r['results'], ['owner'])
+      self.active_tasks_table = DictFilter_2(r['results'], ['owner'])
       self.active_tasks_repeating_panel.items = self.active_tasks_table.original_list
     except Exception as e:
       Notification(f"An Error Occured while getting tasks: {e}")
@@ -51,7 +50,7 @@ class my_tasks(my_tasksTemplate):
         return
       self.old_tasks_data_grid.visible = True
       self.team_active_tasks.visible = False
-      self.old_tasks_table = DictFilter(r['result'])
+      self.old_tasks_table = DictFilter_2(r['result'])
       self.old_tasks_repeating_panel.items = self.old_tasks_table.original_list
     except Exception as e:
       Notification("Error While Getting Old Tasks").show()

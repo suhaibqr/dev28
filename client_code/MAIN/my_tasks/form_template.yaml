@@ -27,10 +27,10 @@ components:
   name: team_active_tasks
   properties:
     columns:
-    - {data_key: task_type, id: YBGRSY, title: Task Type}
-    - {data_key: task_friendly_name, id: SZEXNH, title: Task Name}
+    - {data_key: task_name, id: YBGRSY, title: Task Type}
+    - {data_key: user_description, id: SZEXNH, title: Task Name}
     - {data_key: owner, id: VFUBDY, title: Owner}
-    - {data_key: next_run, id: NGIGDJ, title: Next Run}
+    - {data_key: next_run_time, id: NGIGDJ, title: Next Run}
     - {data_key: bunker_id, id: CQAVDN, title: Bunker}
     - {data_key: details, id: MITGUM, title: Details}
     - {data_key: cancel, id: SBNOTP, title: Cancel}

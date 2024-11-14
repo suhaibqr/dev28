@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 from  ...bunkers import get_bunkers_list
 from ...automation import add_task_args
-from ...tools import dict_to_paragraph
+from ...tools import dict_to_paragraph , dict_to_yaml_string
 
 class check_ports_task(check_ports_taskTemplate):
   def __init__(self, **properties):
@@ -31,15 +31,19 @@ class check_ports_task(check_ports_taskTemplate):
       hosts.remove('')
     if '' in ports:
       ports.remove('')
+    body= {}
     task = {}
     task['arguments']= {}
     task['arguments']['hosts'] =hosts
     task['arguments']['ports'] = ports
     task['bunker_id'] = self.bunkers_list_menu.selected_value
-    add_task_args(task)
+    task["task_name"] = "task_check_ports"
+    body["tasks"] = [task]
+    
+    add_task_args(body)
     f = get_open_form()
     f.sidesheet_content_col.clear()
-    f.schedule_side.task_description_text_box.text = dict_to_paragraph(task)   
+    f.schedule_side.task_description_text_box.text = dict_to_yaml_string(body) 
     f.sidesheet_heading.text = "Set Task Timing"
     f.sidesheet_content_col.add_component(f.schedule_side)
     f.layout.show_sidesheet = True

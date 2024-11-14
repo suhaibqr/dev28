@@ -121,29 +121,28 @@ class schedule_side(schedule_sideTemplate):
       Notification("You have to select trigger type").show()
       return
     # print("get_task_args",get_task_args())
-    input =  get_task_args()
+    body =  get_task_args()
+    print("body", body)
     if not input:
       Notification("No Task to add").show()
       return
-    body={}
-    body["tasks"] = input
-    body["bunker_id"] = task_args.get("bunker_id", "TDM")
-    body["notification_details"] = {}
-    body["notification_details"]["channels"] = ["email"]
-    body["notification_details"]["recipients"] = recipients
+    
+    for b in body['tasks']:
+      b["notification_details"] = {}
+      b["notification_details"]["channels"] = ["email"]
+      b["notification_details"]["recipients"] = recipients
+      b.update(**task)
 
     
 
     self.result.content = json.dumps(body, indent = 4)
     try:
-      r = anvil.server.call("schedule_task", task, "TDM")
+      r = anvil.server.call("schedule_task", body, "TDM")
       alert(dict_to_paragraph(r["result"]), large=True, dismissible=True)
       
     except Exception as e:
       Notification(f"An Error Occured: {e}")
-    # print(task)
-      # task['start_date'] = self.start_date_picker.date or 
-    pass
+    # pass
 
   def task_description_text_box_show(self, **event_args):
     """This method is called when the component is shown on the screen."""
