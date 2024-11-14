@@ -121,22 +121,22 @@ class schedule_side(schedule_sideTemplate):
       Notification("You have to select trigger type").show()
       return
     # print("get_task_args",get_task_args())
-    task_args =  get_task_args()
-    if not task_args:
+    input =  get_task_args()
+    if not input:
       Notification("No Task to add").show()
       return
-    
-    task["task_name"] = "task_netmiko"
-    task["bunker_id"] = task_args.get("bunker_id", "TDM")
-    task["notification_details"] = {}
-    task["notification_details"]["channels"] = ["email"]
-    task["notification_details"]["recipients"] = recipients
-    task["arguments"] = task_args["arguments"]
+    body={}
+    body["tasks"] = input
+    body["bunker_id"] = task_args.get("bunker_id", "TDM")
+    body["notification_details"] = {}
+    body["notification_details"]["channels"] = ["email"]
+    body["notification_details"]["recipients"] = recipients
+
     
 
-    self.result.content = json.dumps(task, indent = 4)
+    self.result.content = json.dumps(body, indent = 4)
     try:
-      r = anvil.server.call("netmiko_task", task, "TDM")
+      r = anvil.server.call("schedule_task", task, "TDM")
       alert(dict_to_paragraph(r["result"]), large=True, dismissible=True)
       
     except Exception as e:

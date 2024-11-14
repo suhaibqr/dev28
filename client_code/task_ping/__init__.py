@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 from ..bunkers import get_bunkers_list
 from ..automation import add_task_args
 from ..tools import dict_to_paragraph
+import json
 
 class task_ping(task_pingTemplate):
   def __init__(self, **properties):
@@ -37,12 +38,13 @@ class task_ping(task_pingTemplate):
     task["bunker_id"] = self.bunkers_drop_down_menu.selected_value
     task["arguments"] = {}
     task["arguments"]["hosts"] = ips
-    task["arguments"]["hosts"] = ips
-    task["arguments"]["hosts"] = ips
+    task["arguments"]["notify_on_error"] = True
+    task["arguments"]["notify_on_success"] = True
+    task["task_name"] = "task_ping"
     add_task_args(task)
     f = get_open_form()
     f.sidesheet_content_col.clear()
-    f.schedule_side.task_description_text_box.text = dict_to_paragraph(task)   
+    f.schedule_side.task_description_text_box.text = json.dumps(task, indent = 4)   
     f.sidesheet_content_col.add_component(f.schedule_side)
     f.sidesheet_heading.text = "Set Task Timing"
     f.layout.show_sidesheet = True

@@ -125,7 +125,16 @@ class NETMIKO(NETMIKOTemplate):
     if not self.bunkers_drop_menu.selected_value:
       Notification("Select Bunker").show()
       return
-    t = {}
+    tasks = []
+    for d in self.netmiko_devices:
+      t = {}
+      t["task_name"] = "netmiko_task"
+      t["arguments"] = {}
+      t["arguments"]["device_name"] = d.name
+      t['arguments']["device_type"] = d.device_type
+
+
+    
     t["arguments"] = {}
     t["arguments"]["commands"] =[line.strip() for line in self.cli_commands_text_area.text.splitlines() if line.strip()]
     t["user_description"] = self.friendly_name_text_box.text or "Netmiko_Task"
