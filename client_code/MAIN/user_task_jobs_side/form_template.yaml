@@ -1,0 +1,14 @@
+components:
+- components:
+  - name: repeating_panel
+    properties: {item_template: MAIN.user_task_jobs_side.RowTemplate10}
+    type: RepeatingPanel
+  layout_properties: {grid_position: 'YFJGGX,JPAPOV'}
+  name: data_grid_1
+  properties:
+    columns:
+    - {data_key: started_at, id: ZHUDII, title: Date}
+    - {data_key: '', id: HWYQRK, title: Result}
+  type: DataGrid
+container: {type: ColumnPanel}
+is_package: true

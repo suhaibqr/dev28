@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 from datetime import datetime , timedelta
-from ...tools import dict_to_paragraph
+from ...tools import dict_to_yaml_string
 # from ...bunkers import get_bunkers_list
 from ...automation import get_task_args
 import json
@@ -138,7 +138,7 @@ class schedule_side(schedule_sideTemplate):
     self.result.content = json.dumps(body, indent = 4)
     try:
       r = anvil.server.call("schedule_task", body, "TDM")
-      alert(dict_to_paragraph(r["result"]), large=True, dismissible=True)
+      alert(dict_to_yaml_string(r["result"]), large=True, dismissible=True)
       
     except Exception as e:
       Notification(f"An Error Occured: {e}")

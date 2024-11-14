@@ -9,7 +9,7 @@ from ...automation import remove_from_automation_devices_list, add_to_automation
 from anvil_extras.MultiSelectDropDown import MultiSelectDropDown
 from ...globals import netmiko_device_types
 from m3._Components.IconButton import IconButton
-from ...tools import dict_to_paragraph, dict_to_yaml_string
+from ...tools import  dict_to_yaml_string
 from ...bunkers import get_bunkers_list
 import json
 

@@ -1,0 +1,13 @@
+components:
+- event_bindings: {click: view_job_btn_click}
+  layout_properties: {column: HWYQRK}
+  name: view_job_btn
+  properties: {icon: 'mi:remove_red_eye'}
+  type: form:dep_lin1x4oec0ytd:_Components.IconButton
+- event_bindings: {click: download_job_btn_click}
+  layout_properties: {column: HWYQRK}
+  name: download_job_btn
+  properties: {icon: 'mi:download'}
+  type: form:dep_lin1x4oec0ytd:_Components.IconButton
+container: {type: DataRowPanel}
+is_package: true

@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 from ..bunkers import get_bunkers_list
 from ..automation import add_task_args
-from ..tools import dict_to_paragraph , dict_to_yaml_string
+from ..tools import  dict_to_yaml_string
 import json
 
 class task_ping(task_pingTemplate):

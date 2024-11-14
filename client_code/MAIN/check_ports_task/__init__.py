@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 from  ...bunkers import get_bunkers_list
 from ...automation import add_task_args
-from ...tools import dict_to_paragraph , dict_to_yaml_string
+from ...tools import  dict_to_yaml_string
 
 class check_ports_task(check_ports_taskTemplate):
   def __init__(self, **properties):
@@ -38,6 +38,8 @@ class check_ports_task(check_ports_taskTemplate):
     task['arguments']['ports'] = ports
     task['bunker_id'] = self.bunkers_list_menu.selected_value
     task["task_name"] = "task_check_ports"
+    task["arguments"]["notify_on_error"] = True
+    task["arguments"]["notify_on_success"] = True
     body["tasks"] = [task]
     
     add_task_args(body)

@@ -5,7 +5,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 import anvil.server
-from ...tools import dict_to_paragraph, decode_base64
+from ...tools import  decode_base64, dict_to_yaml_string
 from ...globals import get_side_panel_data
 from ...inventory_fn import fetch_passwords
 from anvil.js.window import navigator
@@ -41,7 +41,7 @@ class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
             "opdevice_category", "opdevice_groupDisplayName"
         ]
     
-    txt = dict_to_paragraph(data,keys_to_include=keys_to_include)
+    txt = dict_to_yaml_string(data,keys_to_include=keys_to_include)
     self.device_details_text.text = txt
 
   def get_pmp_details_btn_click(self, **event_args):

@@ -5,7 +5,8 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-from ....tools import dict_to_paragraph
+from ....tools import  dict_to_yaml_string
+
 
 class RowTemplate8(RowTemplate8Template):
   def __init__(self, **properties):
@@ -18,14 +19,14 @@ class RowTemplate8(RowTemplate8Template):
     f =get_open_form()
     f.sidesheet_content_col.clear()
     d = {}
-    d["Trigger_Details"] = self.item["trigger"]
-    d["Tassk_Arguments"] = self.item["arguments"]
-    d["Next_Run"] = self.item["next_run"]
+    d["Trigger_Details"] = self.item["kwargs"]["trigger"]
+    d["Task_Arguments"] = self.item["kwargs"]["arguments"]
+    d["Next_Run"] = self.item["next_run_time"]
     d["Owner"] = self.item["owner"]
-    d["Task_Type"] = self.item["task_type"]
-    d["Task_Friendly_name"] = self.item["task_friendly_name"]
-    f.side_sheet_heading.text = "Task Details"
-    t = TextArea(text=dict_to_paragraph(d))
+    d["Task_Type"] = self.item["task_name"]
+    d["Task_Friendly_name"] = self.item["user_description"]
+    f.sidesheet_heading.text = "Task Details"
+    t = TextArea(text=dict_to_yaml_string(d), auto_expand=True)
     f.sidesheet_content_col.add_component(t)
     f.layout.show_sidesheet = True
     
@@ -35,8 +36,22 @@ class RowTemplate8(RowTemplate8Template):
     a = alert("Are You Sure", buttons=[("Yes", True), ("No", False)], dismissible= True)
     if a:
       print("will cancel")
-    else:
-      print("will not cancel")
-    
-    pass
+      try:
+        print(self.item)
+        r = anvil.server.call("cancel_active_task", [self.item['job_id']], self.item['owner'])
+        if r["result"] == "failed":
+          Notification("Failed to Cancel job").show()
+          return
+        
+        # self.remove_from_parent()
+        # self.parent.remove(self.item)
+        
+        if r["status"] == "success":
+          alert(f"Task was canceled\n{r['result']}")
+          self.clear()
+      except Exception as e:
+        Notification(f"Error in Canceling job: {e}").show()
+
+
+
 

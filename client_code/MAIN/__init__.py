@@ -16,6 +16,7 @@ from .NETMIKO import NETMIKO
 from .check_ports_task import check_ports_task
 from ..task_ping import task_ping
 from .my_tasks import my_tasks
+from .user_task_jobs_side import user_task_jobs_side
 was_built = []
 
 class MAIN(MAINTemplate):
@@ -48,6 +49,7 @@ class MAIN(MAINTemplate):
     self.tools_form = TOOLS()
     self.ping_task_form = task_ping()
     self.my_tasks_form = my_tasks()
+    self.user_task_jobs_side = user_task_jobs_side()
     self.check_ports_task_form = check_ports_task()
     pass
 
