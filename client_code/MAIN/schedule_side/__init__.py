@@ -84,7 +84,7 @@ class schedule_side(schedule_sideTemplate):
       task["trigger"] = "run_at"
       task["run_at"] = str(self.run_at_date_picker.date)
     if trig == "interval":
-      task['trigger'] = "ïnterval"
+      task['trigger'] = "interval"
      
       if not self.interval_min_box.text or not self.interval_min_box.text.isdigit():
         Notification("Enter valid interval").show()

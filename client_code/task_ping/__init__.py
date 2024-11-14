@@ -37,6 +37,8 @@ class task_ping(task_pingTemplate):
     task["bunker_id"] = self.bunkers_drop_down_menu.selected_value
     task["arguments"] = {}
     task["arguments"]["hosts"] = ips
+    task["arguments"]["hosts"] = ips
+    task["arguments"]["hosts"] = ips
     add_task_args(task)
     f = get_open_form()
     f.sidesheet_content_col.clear()
