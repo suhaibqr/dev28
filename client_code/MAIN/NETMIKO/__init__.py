@@ -11,6 +11,7 @@ from ...globals import netmiko_device_types
 from m3._Components.IconButton import IconButton
 from ...tools import dict_to_paragraph
 from ...bunkers import get_bunkers_list
+import json
 
 class NETMIKO(NETMIKOTemplate):
   def __init__(self, **properties):
@@ -60,6 +61,12 @@ class NETMIKO(NETMIKOTemplate):
       Notification("Select Bunker").show()
       return
     try:
+      t ={}
+      t["task_name"] = "find_prompt"
+      t["adhoc_args"] = {}
+      t["adhoc_args"]["devices"] = self.netmiko_devices
+      t["bunker_id"] = self.bunkers_drop_menu.selected_value
+      alert(json.dumps(t, indent =4), large=True)
       # r = anvil.server.call("check_prompt", self.netmiko_devices, self.bunkers_drop_menu.selected_value)
       r= {}
       r["result"] = "success"
@@ -120,15 +127,16 @@ class NETMIKO(NETMIKOTemplate):
       Notification("Select Bunker").show()
       return
     t = {}
-    t["commands"] =[line.strip() for line in self.cli_commands_text_area.text.splitlines() if line.strip()]
-    t["task_friendly_name"] = self.friendly_name_text_box.text or "Netmiko_Task"
-    t["devices"] = self.netmiko_devices
+    t["arguments"] = {}
+    t["arguments"]["commands"] =[line.strip() for line in self.cli_commands_text_area.text.splitlines() if line.strip()]
+    t["user_description"] = self.friendly_name_text_box.text or "Netmiko_Task"
+    t["arguments"]["devices"] = self.netmiko_devices
     t['bunnker_id'] = self.bunkers_drop_menu.selected_value
-    # alert(f"Will Check the prompt for the following, please confirm:\n{dict_to_paragraph(t)}", large = True)
+    t["task_name"] = "task_netmiko"
     add_task_args(t)
     f = get_open_form()
     f.sidesheet_content_col.clear()
-    f.schedule_side.task_description_text_box.text = dict_to_paragraph(t)   
+    f.schedule_side.task_description_text_box.text = json.dumps(t, indent = 4)   
     f.sidesheet_content_col.add_component(f.schedule_side)
     f.sidesheet_heading.text = "Set Task Timing"
     f.layout.show_sidesheet = True

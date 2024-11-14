@@ -9,7 +9,7 @@ from datetime import datetime , timedelta
 from ...tools import dict_to_paragraph
 # from ...bunkers import get_bunkers_list
 from ...automation import get_task_args
-
+import json
 
 class schedule_side(schedule_sideTemplate):
   def __init__(self, **properties):
@@ -126,8 +126,12 @@ class schedule_side(schedule_sideTemplate):
       return
     task.update({"arguments": get_task_args()})
     task.update({"notifications": ["email"]})
-    self.result.content = dict_to_paragraph(task)
-    print(task)
+    self.result.content = json.dumps(task, indent = 4)
+    # print(task)
       # task['start_date'] = self.start_date_picker.date or 
+    pass
+
+  def task_description_text_box_show(self, **event_args):
+    """This method is called when the component is shown on the screen."""
     pass
    
