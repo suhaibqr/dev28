@@ -135,7 +135,12 @@ class schedule_side(schedule_sideTemplate):
     
 
     self.result.content = json.dumps(task, indent = 4)
-    r = anvil.server.call("netmiko_task", task, "TDM")
+    try:
+      r = anvil.server.call("netmiko_task", task, "TDM")
+      alert(dict_to_paragraph(r["result"]), large=True, dismissible=True)
+      
+    except Exception as e:
+      Notification(f"An Error Occured: {e}")
     # print(task)
       # task['start_date'] = self.start_date_picker.date or 
     pass
