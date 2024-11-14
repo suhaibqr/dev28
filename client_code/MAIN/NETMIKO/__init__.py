@@ -66,6 +66,7 @@ class NETMIKO(NETMIKOTemplate):
       t["adhoc_args"] = {}
       t["adhoc_args"]["devices"] = self.netmiko_devices
       t["bunker_id"] = self.bunkers_drop_menu.selected_value
+      t["is_config"] = self.is_config.selected
       # alert(json.dumps(t, indent =4), large=True, dismissible=True)
       r = anvil.server.call("check_prompt_task", t, self.bunkers_drop_menu.selected_value)
     
@@ -113,14 +114,14 @@ class NETMIKO(NETMIKOTemplate):
     if not self.netmiko_devices:
       Notification("No Devices").show()
       return
-    set1 = {frozenset(self.normalize_dict(d).items()) for d in self.netmiko_devices}
-    set2 = {frozenset(self.normalize_dict(d).items()) for d in self.checked_prompt_list}
+    # set1 = {frozenset(self.normalize_dict(d).items()) for d in self.netmiko_devices}
+    # set2 = {frozenset(self.normalize_dict(d).items()) for d in self.checked_prompt_list}
 
-    if set1 != set2:
-      self.checked_prompt = False
-    if not self.checked_prompt:
-      Notification("Check Prompt First").show()
-      return
+    # if set1 != set2:
+    #   self.checked_prompt = False
+    # if not self.checked_prompt:
+    #   Notification("Check Prompt First").show()
+    #   return
     if not self.bunkers_drop_menu.selected_value:
       Notification("Select Bunker").show()
       return
