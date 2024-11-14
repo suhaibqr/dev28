@@ -66,12 +66,10 @@ class NETMIKO(NETMIKOTemplate):
       t["adhoc_args"] = {}
       t["adhoc_args"]["devices"] = self.netmiko_devices
       t["bunker_id"] = self.bunkers_drop_menu.selected_value
-      alert(json.dumps(t, indent =4), large=True)
-      # r = anvil.server.call("check_prompt", self.netmiko_devices, self.bunkers_drop_menu.selected_value)
-      r= {}
-      r["result"] = "success"
-      
-      if r['result'] == "failed":
+      # alert(json.dumps(t, indent =4), large=True, dismissible=True)
+      r = anvil.server.call("check_prompt_task", t, self.bunkers_drop_menu.selected_value)
+    
+      if r['status'] == "failed":
         alert(f"Checking Prompt Failed: {r}")
         return
       alert(r['result'], large=True, title="Prompt Results")
