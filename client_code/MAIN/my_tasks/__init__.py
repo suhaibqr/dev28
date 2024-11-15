@@ -29,7 +29,7 @@ class my_tasks(my_tasksTemplate):
       if r["status"] == "failed":
         Notification("Fetching tasks Failed").show()
         return
-      if r['result'] == 'No Tasks Found':
+      if r['detail'] == 'No scheduled tasks found.':
         Notification("No Active Tasks").show()
         return
       self.old_tasks_data_grid.visible = False
@@ -109,8 +109,9 @@ class my_tasks(my_tasksTemplate):
     if a:
       print("will cancel")
       try:
-        print(self.item)
-        r = anvil.server.call("cancel_active_task", "all", self.item['owner'])
+        # print(self.item)
+        owner = "suhaib.alrabee@tdmgroup.net"
+        r = anvil.server.call("cancel_active_task", "all", owner)
         if r["result"] == "failed":
           Notification("Failed to Cancel job").show()
           return  
@@ -119,7 +120,7 @@ class my_tasks(my_tasksTemplate):
         
         if r["status"] == "success":
           alert(f"Task was canceled\n{dict_to_yaml_string(r['result'])}")
-          self.clear()
+          self.active_tasks_repeating_panel.items = []
       except Exception as e:
         Notification(f"Error in Canceling job: {e}").show()
 
