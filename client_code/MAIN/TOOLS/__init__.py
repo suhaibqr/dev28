@@ -113,7 +113,12 @@ class TOOLS(TOOLSTemplate):
     )
     alert(self.t, large=True)
     pass
-
+  def update_status_label(self,n):
+    if not n.isFolder():
+      path = str(n.data.fullPath)
+      a = anvil.server.call("read_file", path)
+      download(a)
+      
   def recordings_btn_click(self, **event_args):
     """This method is called when the component is clicked."""
     # try:
