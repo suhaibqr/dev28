@@ -19,7 +19,7 @@ class RowTemplate3(RowTemplate3Template):
     """This method is called clicked"""
     f = get_open_form()
     f.device_details_form.edit_boxes(self.item)
-
+    
     hostname = f.device_details_form.address_text_box.text
     username = f.device_details_form.username_text_box.text
 

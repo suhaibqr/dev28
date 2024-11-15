@@ -16,12 +16,14 @@ import json
 class NETMIKO(NETMIKOTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
-    self.bunkers  = get_bunkers_list()
+    self.bunkers  = list(get_bunkers_list().keys())
+   
     self.checked_prompt = False
     self.checked_prompt_list = []
     self.netmiko_devices = []
     self.repeating_panel.items =  []
     self.init_components(**properties)
+    self.bunkers_drop_menu.selected_value = self.bunkers_drop_menu.items[0]
     # b = []
     # for i in range(1):
     #   a={"address": None,"username": None, "password": None,"port": None,"enablesecret": None, "device_type": None}
@@ -141,7 +143,7 @@ class NETMIKO(NETMIKOTemplate):
       t['arguments']['is_config'] = self.is_config.selected
       t['arguments']['use_telnet'] = d['is_telnet']
       t['arguments']['commands'] = [line.strip() for line in self.cli_commands_text_area.text.splitlines() if line.strip()]
-      t['arguments']['user_description'] = self.friendly_name_text_box.text
+      t['user_description'] = self.friendly_name_text_box.text
       tasks.append(t)
     body["bunker_id"] = self.bunkers_drop_menu.selected_value
     body["tasks"] = tasks

@@ -12,9 +12,10 @@ from ...tools import  dict_to_yaml_string
 class check_ports_task(check_ports_taskTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
-    self.bunkers = get_bunkers_list()
+    self.bunkers = list(get_bunkers_list().keys())
+    
     self.init_components(**properties)
-
+    self.bunkers_list_menu.selected_value = self.bunkers_list_menu.items[0]
     # Any code you write here will run before the form opens.
 
   def run_check_ports_btn_click(self, **event_args):

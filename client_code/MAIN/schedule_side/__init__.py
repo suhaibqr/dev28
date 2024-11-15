@@ -135,6 +135,7 @@ class schedule_side(schedule_sideTemplate):
       b["notification_details"] = {}
       b["notification_details"]["channels"] = ["email"]
       b["notification_details"]["recipients"] = recipients
+      # b['user_description'] = 
       b.update(**task)
 
     

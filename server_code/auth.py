@@ -30,21 +30,26 @@ SECRET_KEY = "verysecretkey"
 def get_jwt_token():
   return 
 
-@anvil.server.route("/token/:token")
-def process_jwt(token):
+@anvil.server.route("/token/:token", enable_cors=True, cross_site_session= True)
+def process_jwt(token, **params):
 
   try:
       # print("token", token)
       
       decoded_token = jwt.decode(token, SECRET_KEY, algorithms=["HS256"]) or None
-      print("decoded_token", decoded_token)
-      user_id = decoded_token["sub"] or None
-      print("user_id", user_id)
+
+      # user_id = decoded_token["sub"] or None
+      user_id = "suhaib.alrabee@tdmgroup.net"
+  
       existing_user = app_tables.users.get(email=user_id)
       if not existing_user:
         anvil.users.signup_with_email(user_id,"XXXXXasdjaskldjskdfjlgkjl3jh23k4j2kls;oldf[]asas03042ol",remember= True)
       user_from_tables = app_tables.users.get(email=user_id)
       anvil.users.force_login(user_from_tables, remember=True)
+      print("Authenticated?", anvil.users.get_user()['email'])
+      anvil.server.session["authenticated"] = True
+      anvil.server.cookies.shared.set(1, username=user_id)
+      anvil.server.cookies.shared['username_shared'] = user_id
       print(f"Welcome {user_from_tables['email']}, you have successfully logged in!")
       response = anvil.server.HttpResponse(302, "Redirecting to TDM-Platform...")
       response.headers['Location'] = f"{my_anvil_app}"
@@ -85,6 +90,18 @@ def generate_jwt(expiration_minutes=1):
     # Return the generated token (string format)
     return token
 
-
+@anvil.server.callable()
 def is_user_authenticated_in_server():
+  # return anvil.server.session.get("authenticated")  
+  # return anvil.server.cookies.shared.get('xxxx',None)
+ 
+  # return  anvil.server.cookies.shared.get("username") or anvil.server.cookies.shared.get('username_shared')
   return anvil.users.get_user()
+
+
+@anvil.server.callable()
+def log_out():
+  anvil.users.logout()
+  del anvil.server.cookies.shared['username_local']
+  del anvil.server.cookies.shared['username_shared']
+  return 

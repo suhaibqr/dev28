@@ -10,32 +10,34 @@ from ...bunkers import get_bunkers_list
 from ...data_validation import is_valid_tcp_port
 import m3.components as m3
 from ...filter import transform_to_dict
+from ...tools import encode_to_base64
 was_built = False
 
 class TOOLS(TOOLSTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
+    self.bunkers_list = list(get_bunkers_list().keys())
+    
+    
     self.init_components(**properties)
-
+    self.bunkers_list_menu.selected_value = self.bunkers_list_menu.items[0]
     # Any code you write here will run before the form opens.
 
   def manual_ssh_btn_click(self, **event_args):
     """This method is called when the component is clicked."""
     hostname = self.address_text_box.text
     username = self.username_text_box.text
-    password = self.password_text_box.text
-    port = self.password_text_box.text
-    bunker = self.bunkers_list.selected_value or "TDM Vertus"
+    password = encode_to_base64(self.password_text_box.text)
+    port = self.port_text_box.text
+    bunker = self.bunkers_list_menu.selected_value or "TDM Vertus"
     bunker = get_bunkers_list()[bunker][1]
-    if not all([hostname,username,password,is_valid_tcp_port(port)]):
+    token = "0"
+    if not all([hostname,username,password,port]):
       alert("Make sure address, username, password and port are filled")
     url = f"{bunker}?hostname={hostname}&username={username}&password={password}&port={port}&token={token}"
     print("opening in a new tab", url)
     open_tab(url, "_blank")
 
-  def bunkers_list_change(self, **event_args):
-    """This method is called when an item is selected"""
-    pass
 
   def ping_btn_click(self, **event_args):
     """This method is called when the component is clicked."""
@@ -72,8 +74,8 @@ class TOOLS(TOOLSTemplate):
 
   def build_form(self):
     global was_built
-    self.bunkers_list.items = list(get_bunkers_list().keys())
-    self.bunkers_list.selected_value = "TDM Vertus"
+    # self.bunkers_list_menu.items = list(get_bunkers_list().keys())
+    # self.bunkers_list_menu.selected_value = "TDM Vertus"
     if not was_built:
       try:
         self.folder_list = anvil.server.call("get_folder_names")
@@ -115,13 +117,17 @@ class TOOLS(TOOLSTemplate):
   def recordings_btn_click(self, **event_args):
     """This method is called when the component is clicked."""
     # try:
-    bunker = self.bunkers_list.selected_value
+    bunker = self.bunkers_list_menu.selected_value
     r = anvil.server.call("get_ssh_entries", "suhaib.alrabee@tdmgroup.net", bunker)
     r = r['result']['data']
   
     get_open_form().ssh_sessions_sidesheet(r)
     # except Exception as e:
     #   alert(f"Failed to get SSH sessions: {e}")
+
+  def bunkers_list_menu_change(self, **event_args):
+    """This method is called when an item is selected"""
+    pass
 
 
 

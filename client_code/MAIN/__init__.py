@@ -17,25 +17,31 @@ from .check_ports_task import check_ports_task
 from ..task_ping import task_ping
 from .my_tasks import my_tasks
 from .user_task_jobs_side import user_task_jobs_side
+
 was_built = []
 
 class MAIN(MAINTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
-    self.username_welcome_message = "Please Login To Use All Tools"
+    
+    self.username_welcome_message = ""
     self.init_components(**properties)
-    if anvil.users.get_user():
-      print(f"logged in: {anvil.users.get_user()}")
-      print("icon type", type(self.login_nav.icon))
+  
+    u = anvil.server.call("is_user_authenticated_in_server")
+    
+    if u:
+      self.username_welcome_message = f"Welcome: {u['email']}"
       self.login_nav.icon = "mi:logout"
       self.login_nav.text = "Log Out"
-      self.is_auth = anvil.users.get_user()
-      self.username_welcome_message.text = f"Welcome {anvil.users.get_user()}"
+      self.is_auth = u
     else:
       print("No Auth")
+      self.username_welcome_message = "Please Login To Use All Tools"
       self.login_nav.icon = "mi:login"
       self.login_nav.text = "Log in"
       self.is_auth = None
+    self.refresh_data_bindings()
+    
     self.init_forms()
     print(self.login_nav.icon)
     self.layout.show_sidesheet = False
@@ -131,5 +137,17 @@ class MAIN(MAINTemplate):
 
   def login_nav_click(self, **event_args):
     """This method is called when the component is clicked"""
+    if anvil.users.get_user():
+      anvil.server.call("log_out")
+      open_form('MAIN')
+      return
     anvil.js.window.open("https://devtest.tdmgroup.net:8000/auth/saml/login", "_self")
     pass
+
+  def navigation_link_1_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    self.layout.show_sidesheet = False
+    self.main_col_panel.clear()
+    self.main_col_panel.add_component(self.motd_rich)
+    pass
+    

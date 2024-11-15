@@ -69,6 +69,7 @@ class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
   
   def edit_boxes(self,row):
     # print("DNA_NAME:", self.data["DNS_NAME"], "\n" ,"row:", row)
+    self.add_to_fav_name = self.data["RESOURCE_NAME"] or ""
     self.address_text_box.text = self.data["DNS_NAME"] or self.data["opdevice_ipaddress"] or self.data["RESOURCE_URL"]
     self.port_text_box.text = 22
     self.username_text_box.text = row["ACCOUNT_NAME"]
@@ -132,14 +133,18 @@ class DEVICE_DETAILS_SIDE(DEVICE_DETAILS_SIDETemplate):
     """This method is called when the component is clicked."""
     hostname = self.address_text_box.text
     username = self.username_text_box.text
-    port = self.port_text_box.text
-    password = encode_to_base64(self.password_text_box.text)
     
+    port = self.port_text_box.text
+    # password = encode_to_base64(self.password_text_box.text)
+    password = self.password_text_box.text
     d = {
-      "hostname": hostname,
+      "name": self.add_to_fav_name,
+      "host": hostname,
       "username": username,
       "port": port,
       "password": password,
+      "secret": "",
+      "device_type": "cisco_ios"
     }
     if not event_args["sender"].selected:
       print("it was seleceted before clicking, we will delete")

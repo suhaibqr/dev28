@@ -1,24 +1,20 @@
 components_by_slot:
   content:
   - components:
-    - layout_properties: {grid_position: 'VDVHHX,LCXGIM'}
-      name: heading_1
-      properties: {align: center, text: Welcome To TDM Automation Platform}
-      type: form:dep_lin1x4oec0ytd:_Components.Heading
-    - layout_properties: {grid_position: 'OZXRHX,ZJCCEE'}
-      name: rich_text_1
+    - components:
+      - data_bindings:
+        - {code: self.username_welcome_message, property: content, writeback: false}
+        name: welcome_username_text_box
+        properties: {}
+        type: RichText
+      layout_properties: {grid_position: 'OZXRHX,ZJCCEE'}
+      name: motd_rich
       properties:
         content: |-
           This Project has more to come, and will be improved by your feedback, please report any issues
           to the Network Team, even if we might know about it.
 
           All ideas are welcomed, Please do not hesitate to reach out if you have any questions.
-      type: RichText
-    - data_bindings:
-      - {code: self.username_welcome_message, property: content, writeback: false}
-      layout_properties: {grid_position: 'KDWJEX,CVJPED'}
-      name: welcome_username_text_box
-      properties: {}
       type: RichText
     data_bindings: []
     layout_properties: {}
@@ -36,7 +32,8 @@ components_by_slot:
     name: login_nav
     properties: {icon: 'mi:login', text: Login}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
-  - layout_properties: {}
+  - event_bindings: {click: navigation_link_1_click}
+    layout_properties: {}
     name: navigation_link_1
     properties: {icon: 'mi:home_work', text: Home}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink

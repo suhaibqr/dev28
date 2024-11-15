@@ -57,31 +57,37 @@ def encode_to_base64(original_str):
         return f"Error encoding to Base64: {e}"
 
 
-def dict_to_yaml_string(data, indent=0):
+def dict_to_yaml_string(data, indent=0, keys_to_include=None):
     """
     Converts a Python dictionary to a YAML-formatted string without external libraries.
 
     Args:
         data (dict): The dictionary to convert to YAML.
         indent (int): The current indentation level.
+        keys_to_include (set): A set of keys to include in the output. If None, include all keys.
 
     Returns:
         str: YAML string.
     """
     yaml_str = ""
     indentation = "  " * indent
-    data = mask_passwords(data)
+    data = mask_passwords(data)  # Assuming mask_passwords is defined elsewhere
+    
     if isinstance(data, dict):
-        for key, value in data.items():
+        filtered_data = {
+            key: value for key, value in data.items()
+            if keys_to_include is None or key in keys_to_include
+        }
+        for key, value in filtered_data.items():
             yaml_str += f"{indentation}{key}:"
             if isinstance(value, (dict, list)):
-                yaml_str += "\n" + dict_to_yaml_string(value, indent + 1)
+                yaml_str += "\n" + dict_to_yaml_string(value, indent + 1, keys_to_include)
             else:
                 yaml_str += f" {value}\n"
     elif isinstance(data, list):
         for item in data:
             if isinstance(item, (dict, list)):
-                yaml_str += f"{indentation}-\n" + dict_to_yaml_string(item, indent + 1)
+                yaml_str += f"{indentation}-\n" + dict_to_yaml_string(item, indent + 1, keys_to_include)
             else:
                 yaml_str += f"{indentation}- {item}\n"
     else:

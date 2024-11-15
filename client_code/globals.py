@@ -98,7 +98,7 @@ netmiko_device_types = [
 
 team_emails = [
   {"key": "Ahmad AlSaqqa", "value": "ahmad.alsaqqa@tdmgroup.net"},
-  {"key": "Suhaib Alrabee",  "value": "suhaib.alrabee@tdmgroup.netqo" },
+  {"key": "Suhaib Alrabee",  "value": "suhaib.alrabee@tdmgroup.net" },
   {"key": "Mahammad Quaqazeh", "value": "mohammad.quaqazeh@tdmgroup.net"},
   {"key": "Jamille AbuShash", "value": "jamille.abushah@tdmgroup.net"},
   {"key": "Maysam Qasem", "value": "maysam.qasem@tdmgroup.net"},
