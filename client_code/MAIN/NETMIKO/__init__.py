@@ -12,6 +12,7 @@ from m3._Components.IconButton import IconButton
 from ...tools import  dict_to_yaml_string
 from ...bunkers import get_bunkers_list
 import json
+import copy
 
 class NETMIKO(NETMIKOTemplate):
   def __init__(self, **properties):
@@ -150,8 +151,8 @@ class NETMIKO(NETMIKOTemplate):
     
 
 
-  
-    add_task_args(body)
+    
+    add_task_args(copy.deepcopy(body))
     f = get_open_form()
     f.sidesheet_content_col.clear()
     # f.schedule_side.task_description_text_box.text = json.dumps(t, indent = 4)   
