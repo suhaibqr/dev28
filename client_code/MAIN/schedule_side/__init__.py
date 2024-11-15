@@ -142,6 +142,8 @@ class schedule_side(schedule_sideTemplate):
 
     self.result.content = json.dumps(body, indent = 4)
     try:
+      print(body)
+      return
       r = anvil.server.call("schedule_task", body, "TDM")
       alert(dict_to_yaml_string(r["result"]), large=True, dismissible=True)
       
