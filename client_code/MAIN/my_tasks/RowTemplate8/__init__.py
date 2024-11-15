@@ -38,7 +38,8 @@ class RowTemplate8(RowTemplate8Template):
       print("will cancel")
       try:
         print(self.item)
-        r = anvil.server.call("cancel_active_task", [self.item['job_id']], self.item['owner'])
+        owner = "suhaib.alrabee@tdmgroup.net"
+        r = anvil.server.call("cancel_active_task", [self.item['job_id']], owner)
         if r["result"] == "failed":
           Notification("Failed to Cancel job").show()
           return
