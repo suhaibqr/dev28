@@ -14,6 +14,12 @@ components_by_slot:
 
           All ideas are welcomed, Please do not hesitate to reach out if you have any questions.
       type: RichText
+    - data_bindings:
+      - {code: self.username_welcome_message, property: content, writeback: false}
+      layout_properties: {grid_position: 'KDWJEX,CVJPED'}
+      name: welcome_username_text_box
+      properties: {}
+      type: RichText
     data_bindings: []
     layout_properties: {}
     name: main_col_panel

@@ -22,9 +22,22 @@ was_built = []
 class MAIN(MAINTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
+    self.username_welcome_message = "Please Login To Use All Tools"
     self.init_components(**properties)
-    
+    if anvil.users.get_user():
+      print(f"logged in: {anvil.users.get_user()}")
+      print("icon type", type(self.login_nav.icon))
+      self.login_nav.icon = "mi:logout"
+      self.login_nav.text = "Log Out"
+      self.is_auth = anvil.users.get_user()
+      self.username_welcome_message.text = f"Welcome {anvil.users.get_user()}"
+    else:
+      print("No Auth")
+      self.login_nav.icon = "mi:login"
+      self.login_nav.text = "Log in"
+      self.is_auth = None
     self.init_forms()
+    print(self.login_nav.icon)
     self.layout.show_sidesheet = False
     # Any code you write here will run before the form opens.
 
@@ -119,5 +132,4 @@ class MAIN(MAINTemplate):
   def login_nav_click(self, **event_args):
     """This method is called when the component is clicked"""
     anvil.js.window.open("https://devtest.tdmgroup.net:8000/auth/saml/login", "_self")
-    
     pass

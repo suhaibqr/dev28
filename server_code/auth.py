@@ -32,11 +32,14 @@ def get_jwt_token():
 
 @anvil.server.route("/token/:token")
 def process_jwt(token):
-  if not jwt:
-      return "Missing token"
+
   try:
-      decoded_token = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-      user_id = decoded_token["sub"]
+      # print("token", token)
+      
+      decoded_token = jwt.decode(token, SECRET_KEY, algorithms=["HS256"]) or None
+      print("decoded_token", decoded_token)
+      user_id = decoded_token["sub"] or None
+      print("user_id", user_id)
       existing_user = app_tables.users.get(email=user_id)
       if not existing_user:
         anvil.users.signup_with_email(user_id,"XXXXXasdjaskldjskdfjlgkjl3jh23k4j2kls;oldf[]asas03042ol",remember= True)
@@ -48,8 +51,8 @@ def process_jwt(token):
       return response
   except jwt.ExpiredSignatureError:
       return "Token has expired"
-  except jwt.InvalidTokenError:
-      return "Invalid token"
+  except jwt.InvalidTokenError as e:
+      return f"Invalid token: \n{token}\n{e}"
 
 @anvil.server.callable
 def generate_jwt(expiration_minutes=1):
