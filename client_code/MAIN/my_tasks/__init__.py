@@ -25,22 +25,23 @@ class my_tasks(my_tasksTemplate):
     print("get active tasks")
     try:
       r = anvil.server.call("get_active_tasks", self.is_all_switch.selected)
-      print("r", r)
+      # print("r", r)
       if r["status"] == "failed":
         Notification("Fetching tasks Failed").show()
         return
-      if r['detail'] == 'No scheduled tasks found.':
+      if r.get('detail') == 'No scheduled tasks found.':
         Notification("No Active Tasks").show()
         return
       self.old_tasks_data_grid.visible = False
       self.team_active_tasks.visible = True
       
-      
       self.active_tasks_table = DictFilter_2(r['result'], ['owner'])
+      print("self.active_tasks_table.original_list", self.active_tasks_table.original_list)
       # print("self.active_tasks_table.original_list", self.active_tasks_table.original_list)
       self.active_tasks_repeating_panel.items = self.active_tasks_table.original_list
+      
     except Exception as e:
-      Notification(f"An Error Occured while getting tasks: {e}")
+      Notification(f"An Error Occured while getting tasks: {e}").show()
     pass
 
   def search_text_box_pressed_enter(self, **event_args):
