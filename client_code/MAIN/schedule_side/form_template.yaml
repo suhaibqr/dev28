@@ -81,7 +81,9 @@ components:
       properties: {label: Enter Interval in Minutes}
       type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
     - components:
-      - event_bindings: {change: start_date_picker_change}
+      - data_bindings:
+        - {code: self.not_before, property: date, writeback: false}
+        event_bindings: {change: start_date_picker_change}
         layout_properties: {}
         name: start_date_picker
         properties: {pick_time: true, placeholder: Start Date}
@@ -99,7 +101,9 @@ components:
       properties: {}
       type: FlowPanel
     - components:
-      - layout_properties: {}
+      - data_bindings:
+        - {code: self.not_before, property: date, writeback: false}
+        layout_properties: {}
         name: end_date_picker
         properties: {pick_time: true, placeholder: End Date}
         type: DatePicker
@@ -147,6 +151,13 @@ components:
     name: emails_text_area
     properties: {label: 'Notifications: Enter Email Addresses seperated by ;'}
     type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextArea
+  - data_bindings:
+    - {code: self.team_emails, property: items, writeback: false}
+    event_bindings: {change: team_emails_menu_change}
+    layout_properties: {grid_position: 'MVJIMI,BSPDBD'}
+    name: team_emails_menu
+    properties: {enable_filtering: true, enable_select_all: true, placeholder: Select From Team}
+    type: form:dep_64n6w4mctd8suj:MultiSelectDropDown
   layout_properties: {grid_position: 'JRWGSF,PTZFAZ'}
   name: notification_col
   properties: {}

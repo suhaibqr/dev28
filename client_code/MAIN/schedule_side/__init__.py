@@ -9,6 +9,7 @@ from datetime import datetime , timedelta
 from ...tools import dict_to_yaml_string
 # from ...bunkers import get_bunkers_list
 from ...automation import get_task_args
+from ...globals import get_team_emails
 import json
 
 class schedule_side(schedule_sideTemplate):
@@ -16,6 +17,7 @@ class schedule_side(schedule_sideTemplate):
     # Set Form properties and Data Bindings.
    
     self.not_before = datetime.now()
+    self.team_emails = get_team_emails()
     # self.bunkers = get_bunkers_list()
     self.init_components(**properties)
     self.cols = [self.run_now_col,self.run_at_col,self.run_after_col,self.run_intervally_col,self.run_cron_col]
@@ -114,6 +116,8 @@ class schedule_side(schedule_sideTemplate):
       task["cron"] = self.cron_text_box.text
 
     recipients = self.emails_text_area.text.split(";") or None
+    if "" in recipients:
+      recipients.remove("")
 
     # if not self.bunkers_list_menu.selected_value:
     #   Notification("Please Select Bunker")
@@ -147,4 +151,24 @@ class schedule_side(schedule_sideTemplate):
   def task_description_text_box_show(self, **event_args):
     """This method is called when the component is shown on the screen."""
     pass
+
+  def team_emails_menu_change(self, **event_args):
+    """This method is called when the selected values change"""
+    for i in self.team_emails_menu.items:
+      if i['value'] in self.emails_text_area.text and i['value'] in self.team_emails_menu.selected:
+        pass
+      if i['value'] in self.emails_text_area.text and i['value'] not in self.team_emails_menu.selected:
+        print(i['value'], "removing")
+        self.emails_text_area.text = self.emails_text_area.text.replace(i['value'], "").strip()
+        self.emails_text_area.text = self.emails_text_area.text.replace(f";{i['value']}", "").strip()
+      if i['value'] not in self.emails_text_area.text and i['value'] in self.team_emails_menu.selected:
+        self.emails_text_area.text = f"{self.emails_text_area.text};{i['value']}"
+      if self.emails_text_area.text == ";":
+        self.emails_text_area.text = ""
+    self.emails_text_area.text = self.emails_text_area.text.replace(";;", ";").strip()
+    if not self.emails_text_area.text or self.emails_text_area.text == ";" or self.emails_text_area.text == "":
+      self.emails_text_area.text = ';'.join(self.team_emails_menu.selected)
+      
+    
+
    

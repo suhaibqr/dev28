@@ -93,3 +93,20 @@ netmiko_device_types = [
     "vyatta_vyos",
     "vyos",
 ]
+
+
+
+team_emails = [
+  {"key": "Ahmad AlSaqqa", "value": "ahmad.alsaqqa@tdmgroup.net"},
+  {"key": "Suhaib Alrabee",  "value": "suhaib.alrabee@tdmgroup.netqo" },
+  {"key": "Mahammad Quaqazeh", "value": "mohammad.quaqazeh@tdmgroup.net"},
+  {"key": "Jamille AbuShash", "value": "jamille.abushah@tdmgroup.net"},
+  {"key": "Maysam Qasem", "value": "maysam.qasem@tdmgroup.net"},
+  {"key": "Mounes Yaseen", "value": "mounes.yaseen@tdmgroup.net"},
+  {"key": "Abdulhafeez Alzaben", "value": "abdulhafeez.alzaben@tdmgroup.net"},
+  {"key": "Salah AlKhateeb", "value": "salah.alkhateeb@tdmgroup.net"},
+  {"key": "Abduallah Haddad", "value": "abdullah.haddad@tdmgroup.net"},
+]
+
+def get_team_emails():
+  return team_emails

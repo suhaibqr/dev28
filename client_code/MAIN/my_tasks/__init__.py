@@ -6,6 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 from ...filter import DictFilter_2 , DictFilter_3
+from ...tools import dict_to_yaml_string
 
 class my_tasks(my_tasksTemplate):
   def __init__(self, **properties):
@@ -27,6 +28,9 @@ class my_tasks(my_tasksTemplate):
       print("r", r)
       if r["status"] == "failed":
         Notification("Fetching tasks Failed").show()
+        return
+      if r['result'] == 'No Tasks Found':
+        Notification("No Active Tasks").show()
         return
       self.old_tasks_data_grid.visible = False
       self.team_active_tasks.visible = True
@@ -98,3 +102,25 @@ class my_tasks(my_tasksTemplate):
                   flattened_list.append(task_with_key)
       
       return flattened_list
+
+  def cancel_all_btn_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    a = alert("Are You Sure", buttons=[("Yes", True), ("No", False)], dismissible= True)
+    if a:
+      print("will cancel")
+      try:
+        print(self.item)
+        r = anvil.server.call("cancel_active_task", "all", self.item['owner'])
+        if r["result"] == "failed":
+          Notification("Failed to Cancel job").show()
+          return  
+        # self.remove_from_parent()
+        # self.parent.remove(self.item)
+        
+        if r["status"] == "success":
+          alert(f"Task was canceled\n{dict_to_yaml_string(r['result'])}")
+          self.clear()
+      except Exception as e:
+        Notification(f"Error in Canceling job: {e}").show()
+
+    pass

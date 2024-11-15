@@ -47,7 +47,7 @@ class RowTemplate8(RowTemplate8Template):
         # self.parent.remove(self.item)
         
         if r["status"] == "success":
-          alert(f"Task was canceled\n{r['result']}")
+          alert(f"Task was canceled\n{dict_to_yaml_string(r['result'])}")
           self.clear()
       except Exception as e:
         Notification(f"Error in Canceling job: {e}").show()

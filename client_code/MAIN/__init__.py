@@ -23,6 +23,7 @@ class MAIN(MAINTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    
     self.init_forms()
     self.layout.show_sidesheet = False
     # Any code you write here will run before the form opens.
@@ -113,4 +114,10 @@ class MAIN(MAINTemplate):
     """This method is called when the component is clicked"""
     self.main_col_panel.clear()
     self.main_col_panel.add_component(self.my_tasks_form)
+    pass
+
+  def login_nav_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    anvil.js.window.open("https://devtest.tdmgroup.net:8000/auth/saml/login", "_self")
+    
     pass
